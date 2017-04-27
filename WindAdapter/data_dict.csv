@@ -1,0 +1,18 @@
+name,tenor,api,indicator,period,priceadj,unit,explanation,type
+MV,,wsd,mkt_cap,M,F,1,总市值（不可回测）,规模
+PB,,wsd,pb_lf,M,F,,市净率PB（LF）,价值
+STDQ,1Q,wss,turn_free_per,M,,,区间换手率（基准 自由流通股本）,流动性
+EquityGrowth_YoY,,wsd,yoy_equity,Q,,,净资产（同比增长率）,成长
+ROE,,wsd,roe_avg,Q,,,净资产收益率（平均）,盈利
+ProfitGrowth_Qr_YoY,,wsd,qfa_yoyprofit,Q,,,单季度 净利润同比增长率,盈利
+TO_adj,1M,wss,avg_turn_free_per,M,,,区间日均换手率（基准 自由流通股本）,流动性
+RETURN,1M,wss,pct_chg_per,M,,,区间涨跌幅,估值
+GrossProfit,,wsd,grossmargin,Q,,100000000,毛利,盈利
+EP,,wsd,deductedprofit_ttm,M,,100000000,扣除非经常性损益后的净利润（TTM）,盈利
+SP,,wsd,gr_ttm,M,,100000000,营业总收入（TTM）,盈利
+OHLCV,,wsd,"open,high,low,close,volume",,,,开盘价、最高价、最低价、收盘价、成交量,
+OPEN,,wsd,open,,F,,开盘价,
+HIGH,,wsd,high,,F,,最高价,
+LOW,,wsd,low,,F,,最低价,
+CLOSE,,wsd,close,,F,,收盘价,
+VOLUME,,wsd,volume,,F,,成交量,
