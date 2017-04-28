@@ -9,6 +9,7 @@ from WindAdapter.enums import OutputFormat
 from WindAdapter.enums import WindDataType
 from WindAdapter.helper import WindQueryHelper
 from WindAdapter.utils import py_assert
+from WindAdapter.utils import date_convert_2_str
 
 WIND_QUERY_HELPER = WindQueryHelper()
 WIND_DATA_PROVIDER = WindDataProvider()
@@ -20,8 +21,9 @@ class FactorLoader:
         self._end_date = end_date
         self._factor_name = factor_name
         self._sec_id = kwargs.get('sec_id', 'fulla')
+        self._freq = kwargs.get('freq', FreqType.EOM)
+        self._tenor = kwargs.get('tenor', None)
         self._output_data_format = kwargs.get('output_data_format', OutputFormat.MULTI_INDEX_DF)
-        self._save_file = kwargs.get('save_file', None)
         self._is_index = kwargs.get('is_index', True)
 
     @staticmethod
@@ -29,20 +31,30 @@ class FactorLoader:
         ret = ''
         for index, value in params.iteritems():
             if not pd.isnull(value):
-                if index == 'tenor':
+                if index == Header.TENOR:
                     py_assert(date is not None, ValueError, 'date must given if tenor is not None')
                     unit = ''.join(re.findall('[0-9]+', params[Header.TENOR]))
                     freq = FreqType(params[Header.TENOR][len(unit):])
                     ret += 'startDate=' + WindDataProvider.advance_date(date, unit, freq).strftime(
-                        '%Y%m%d') + ';endDate=' + date.strftime('%Y%m%d') + ';'
+                        '%Y%m%d') + ';endDate=' + date + ';'
                 else:
                     ret += (index + '=' + str(value) + ';')
         ret = ret[:-1]
         return ret
 
+    @staticmethod
+    def _get_enum_value(enum_var):
+        if isinstance(enum_var, FreqType):
+            return enum_var.value
+        elif isinstance(enum_var, basestring):
+            return enum_var
+        else:
+            raise TypeError('Wring type of enum variable {0}'.format(enum_var))
+
     def _get_sec_id(self, date):
         if isinstance(self._sec_id, basestring):
-            sec_id = WIND_DATA_PROVIDER.get_universe(self._sec_id, date)
+            sec_id = WIND_DATA_PROVIDER.get_universe(self._sec_id, date=date) \
+                if self._is_index else self._sec_id
         elif isinstance(self._sec_id, list):
             sec_id = self._sec_id
         else:
@@ -54,8 +66,8 @@ class FactorLoader:
         output_data = pd.DataFrame()
         api = main_params[Header.API]
         if api == 'w.wsd':
-            sec_id = WIND_DATA_PROVIDER.get_universe(self._sec_id, date=self._end_date) \
-                if self._is_index else self._sec_id
+            # TODO fix this
+            sec_id = self._get_sec_id(date=self._end_date)  # 取最后一个日期
             merged_extra_params = self._merge_query_params(extra_params)
             raw_data = WIND_DATA_PROVIDER.query_data(api=api,
                                                      sec_id=sec_id,
@@ -67,12 +79,15 @@ class FactorLoader:
                                                                raw_data_type=WindDataType.WSD_TYPE,
                                                                output_data_format=output_data_format)
         elif api == 'w.wss':
+            py_assert(not pd.isnull(extra_params[Header.TENOR]), ValueError,
+                      'tenor must be given for query factor {0}'.format(self._factor_name))
             dates = WIND_DATA_PROVIDER.biz_days_list(start_date=self._start_date,
                                                      end_date=self._end_date,
-                                                     freq=extra_params['period'])
+                                                     freq=self._freq)
             for date in dates:
+                date = date_convert_2_str(date)
                 merged_extra_params = self._merge_query_params(extra_params, date=date)
-                sec_id = WIND_DATA_PROVIDER.get_universe(self._sec_id, date=date)\
+                sec_id = WIND_DATA_PROVIDER.get_universe(self._sec_id, date=date) \
                     if self._is_index else self._sec_id
                 raw_data = WIND_DATA_PROVIDER.query_data(api=api,
                                                          sec_id=sec_id,
@@ -89,6 +104,8 @@ class FactorLoader:
 
     def load_data(self):
         main_params, extra_params = WIND_QUERY_HELPER.get_query_params(self._factor_name)
+        extra_params[Header.TENOR.value] = self._get_enum_value(self._tenor) if self._tenor is not None else None
+        extra_params[Header.FREQ.value] = self._get_enum_value(self._freq)
         ret = self._retrieve_data(main_params=main_params,
                                   extra_params=extra_params,
                                   output_data_format=self._output_data_format)

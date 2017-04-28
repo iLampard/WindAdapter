@@ -35,7 +35,7 @@ class Header(StrEnum):
     TENOR = 'tenor'
     API = 'api'
     INDICATOR = 'indicator'
-    FREQ = 'freq'
+    FREQ = 'period'
     PRICEADJ = 'priceadj'
     UNIT = 'unit'
     TRADEDATE = 'tradeDate'

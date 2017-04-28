@@ -7,6 +7,7 @@ from decouple import config
 from WindAdapter.enums import Header
 from WindAdapter.enums import OutputFormat
 from WindAdapter.enums import WindDataType
+from WindAdapter.utils import date_convert_2_str
 
 DATA_DICT_PATH = config('DATA_DICT_PATH', default='data_dict.csv')
 DATA_DICT_PATH_TYPE_ABS = config('DATA_DICT_PATH_TYPE_ABS', default=False, cast=bool)
@@ -36,6 +37,8 @@ class WindQueryHelper:
     def _split_params(params):
         main_params = params[[Header.API, Header.EXPLANATION, Header.INDICATOR]]
         extra_params = params.drop([Header.API, Header.EXPLANATION, Header.INDICATOR, Header.TYPE])
+        extra_params[Header.TENOR.value] = np.nan
+        extra_params[Header.FREQ.value] = 'M'
         return main_params, extra_params
 
     def get_query_params(self, factor_name=None):
@@ -53,8 +56,8 @@ class WindQueryHelper:
     @staticmethod
     def reformat_wind_data(raw_data, raw_data_type, date=None, output_data_format=OutputFormat.PITVOT_TABLE_DF):
         data = raw_data.Data if raw_data_type == WindDataType.WSS_TYPE else np.array(raw_data.Data).T
-        index = [date] if raw_data_type == WindDataType.WSS_TYPE else raw_data.Times
-        index = [date.strftime('%Y-%m-%d') for date in index]
+        index = [date] if raw_data_type == WindDataType.WSS_TYPE else \
+            [date_convert_2_str(date) for date in raw_data.Times]
         ret = pd.DataFrame(data=data,
                            columns=raw_data.Codes,
                            index=index)

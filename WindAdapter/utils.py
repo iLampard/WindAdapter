@@ -4,6 +4,7 @@ import pickle
 import pandas as pd
 from IPython.display import display
 import functools
+import datetime
 
 
 def save_data_to_file(data, save_file_name):
@@ -16,7 +17,7 @@ def save_data_to_file(data, save_file_name):
     save_file_type = save_file_name.split('.')[1]
     if save_file_type == 'csv':
         data.to_csv(save_file_name)
-    elif save_file_name == 'pkl':
+    elif save_file_type == 'pkl':
         pkl_dump_data(data, save_file_name)
     else:
         raise NotImplementedError
@@ -90,3 +91,8 @@ def print_table(table, name=None, fmt=None):
 
     if fmt is not None:
         pd.set_option('display.float_format', prev_option)
+
+
+def date_convert_2_str(date, fmt='%Y-%m-%d'):
+    if isinstance(date, datetime.datetime):
+        return date.strftime(fmt)
