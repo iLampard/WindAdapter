@@ -130,12 +130,14 @@ version()
 
 
 ## 依赖
+``` python
 numpy
 pandas
 WindPy
+```
 
 ## 安装
 
 ``` python
-    pip install WindAdapter
+pip install WindAdapter
 ```
