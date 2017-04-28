@@ -1,3 +1,10 @@
+<tr>
+  <td>Latest Release</td>
+  <td><img src="https://img.shields.io/pypi/v/WindAdapter.svg" alt="latest release" /></td>
+</tr>
+
+
+
 # WindAdapter
 
 *WindAdapter*是一个从wind网络终端读取和整理因子数据的简单工具: 相比于直接使用wsd/wss等wind函数, *WindAdapter*根据预先定义好的参数字典(用户也可以自行扩展更新), 可以让用户更便捷的读取和整理数据
@@ -75,6 +82,7 @@ hs300_comp = get_universe(index_id='000300.SH', date='20170103')
 full_mkt = get_universe(index_id='fullA')
 ```
 <br />
+
 ##### reset_data_dict_path
 
 ``` python
@@ -89,6 +97,7 @@ from WindAdapter import reset_data_dict_path
 reset_data_dict_path(path='C:\\data_dict_perso.csv', path_type_abs=True)
 ```
 <br />
+
 ##### factor_help / factor_details_help
 
 ``` python
@@ -104,6 +113,7 @@ factor_details_help()
 ```
 
 <br />
+
 ##### version
 
 ``` python
