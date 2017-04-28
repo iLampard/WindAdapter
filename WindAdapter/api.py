@@ -20,6 +20,7 @@ def reset_log_level(log_level):
     :param log_level: enum, 可选择'info', 'critical'  'notset'
     :return: 设置WindAdapter函数输出信息的等级， 项目默认为'info'等级
     """
+    LOGGER.critical('Reset path of data dict to {0}'.format(log_level))
     LOGGER.set_level(log_level)
 
 
@@ -29,7 +30,7 @@ def reset_data_dict_path(path, path_type_abs):
     :param path_type_abs: str, True: 路径为绝对路径, False: 路径为相对路径
     :return: data_dict的路径被修改
     """
-    LOGGER.critical('Reset path of data dict to {}'.format(path))
+    LOGGER.critical('Reset path of data dict to {0}'.format(path))
     os.environ['DATA_DICT_PATH'] = path
     os.environ['DATA_DICT_PATH_TYPE_ABS'] = str(path_type_abs)
     return
@@ -88,6 +89,7 @@ def factor_help():
     LOGGER.info('Factors that are available to query')
     data_dict = WIND_QUERY_HELPER.data_dict
     print_table(data_dict['explanation'], name='Data_Dict')
+    return
 
 
 def factor_details_help():
@@ -97,3 +99,4 @@ def factor_details_help():
     LOGGER.info('Factors(details) that are available to query')
     data_dict = WIND_QUERY_HELPER.data_dict
     print_table(data_dict, name='Data_Dict')
+    return

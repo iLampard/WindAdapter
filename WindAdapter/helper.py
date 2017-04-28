@@ -6,8 +6,6 @@ import pandas as pd
 from decouple import config
 from WindAdapter.enums import Header
 from WindAdapter.enums import OutputFormat
-from WindAdapter.enums import WindDataType
-from WindAdapter.utils import date_convert_2_str
 
 DATA_DICT_PATH = config('DATA_DICT_PATH', default='data_dict.csv')
 DATA_DICT_PATH_TYPE_ABS = config('DATA_DICT_PATH_TYPE_ABS', default=False, cast=bool)
@@ -54,13 +52,10 @@ class WindQueryHelper:
         return main_params, extra_params
 
     @staticmethod
-    def reformat_wind_data(raw_data, raw_data_type, date=None, output_data_format=OutputFormat.PITVOT_TABLE_DF):
-        data = raw_data.Data if raw_data_type == WindDataType.WSS_TYPE else np.array(raw_data.Data).T
-        index = [date] if raw_data_type == WindDataType.WSS_TYPE else \
-            [date_convert_2_str(date) for date in raw_data.Times]
-        ret = pd.DataFrame(data=data,
+    def reformat_wind_data(raw_data, date=None, output_data_format=OutputFormat.PITVOT_TABLE_DF):
+        ret = pd.DataFrame(data=raw_data.Data,
                            columns=raw_data.Codes,
-                           index=index)
+                           index=[date])
         if output_data_format == OutputFormat.MULTI_INDEX_DF:
             ret = ret.stack()
             ret = pd.DataFrame(ret)
