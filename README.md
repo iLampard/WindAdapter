@@ -1,4 +1,0 @@
-# WindAdapter
-
-
-TO ADD
