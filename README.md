@@ -114,6 +114,21 @@ factor_details_help()
 
 <br />
 
+
+
+##### reset_log_level
+``` python
+from WindAdapter import reset_log_level
+
+"""
+:return: 设置WindAdapter函数输出信息的等级， 项目默认为'info'等级
+"""
+reset_log_level('critical')
+
+```
+
+<br />
+
 ##### version
 
 ``` python
@@ -132,6 +147,7 @@ version()
 ## 依赖
 numpy
 pandas
+python-decouple
 WindPy
 
 ## 安装
