@@ -1,43 +1,7 @@
-<tr>
-  <td>Latest Release</td>
-  <td><img src="https://img.shields.io/pypi/v/WindAdapter.svg" alt="latest release" /></td>
-</tr>
 
-
-
-# WindAdapter
-
-*WindAdapter*是一个从wind网络终端读取和整理因子数据的简单工具: 相比于直接使用wsd/wss等wind函数, *WindAdapter*根据预先定义好的参数字典(用户也可以自行扩展更新), 可以让用户更便捷的读取和整理数据
-
-具体而言, *WindAdapter*的功能有
-
--  根据用户输入因子名称和读取区间, 以及预定义的数据字典(如本项目默认的‘data_dict.csv’), *自动*拼接参数语句与接口函数, 从wind网络终端读取数据
--  返回因子数据的格式为pandas.DataFrame
-可选择MultiIndex(index为date和secID, value=因子值) 或者 PivotTable格式（index=date, col=secID，value=因子值）
--  返回因子数据可在读取完毕后选择保存为csv或者pickle格式
--  还可返回指数成分股列表: 可选择全市场或者某个指数
-
-*Note*
-
--  只有在数据字典中预定义好的因子才能利用*WindAdpater*读取，目前已整理好约20个因子的参数以及接口列表, 可使用*factor_help()*首先进行查询 
--  用户可以在本地自行更新数据字典作为*WindAdpater*引用（方法见下文*reset_data_dict_path*）或者等待本项目后续更新
 
 
 ## 使用
-
-
-##### factor_help
-
-``` python
-from WindAdapter import factor_help
-
-factor_help()
-
-# 将会输出目前可以查询的因子名称列表
-
-```
-
-
 
 ##### factor_load 
 ``` python
@@ -77,8 +41,85 @@ factor_load('2014-01-01', '2014-03-31', 'return', sec_id='000300.SH', is_index=T
 
 <br />
 
+##### get_universe
 
-其他细节参见[WindAdapter tutorial](/example/tutorial.md) 
+``` python
+from WindAdapter import get_universe
+
+# def get_universe(index_id, date=None)
+"""
+:param index_id: str, 可以为指数代码或者'fullA'（指全市场股票），不区分大小写
+:param date: str, optional, YYYYMMDD/YYYY-MM-DD，默认为None，即返回最近交易日的成分股列表 
+:return: list, 成分股列表
+"""
+
+# 读取指数成分股
+hs300_comp = get_universe(index_id='000300.SH', date='20170103')
+
+# 读取全市场股票
+full_mkt = get_universe(index_id='fullA')
+```
+<br />
+
+##### reset_data_dict_path
+
+``` python
+from WindAdapter import reset_data_dict_path
+
+# def reset_data_dict_path(path, path_type_abs)
+"""
+:param index_id: str, 可以为指数代码或者'fullA'（指全市场股票），不区分大小写
+:param date: str, optional, YYYYMMDD/YYYY-MM-DD，默认为None，即返回最近交易日的成分股列表 
+:return: list, 成分股列表
+"""
+reset_data_dict_path(path='C:\\data_dict_perso.csv', path_type_abs=True)
+```
+<br />
+
+##### factor_help / factor_details_help
+
+``` python
+from WindAdapter import factor_help, factor_details_help
+
+"""
+:return: 返回定义的数据字典（简易版和详细版） 
+"""
+factor_help()
+
+factor_details_help()
+
+```
+
+<br />
+
+
+
+##### reset_log_level
+``` python
+from WindAdapter import reset_log_level
+
+"""
+:return: 设置WindAdapter函数输出信息的等级， 项目默认为'info'等级
+"""
+reset_log_level('critical')
+
+```
+
+<br />
+
+##### version
+
+``` python
+from WindAdapter import version
+
+"""
+:return: 当前WindAdapter的版本号 
+"""
+version()
+
+```
+
+
 
 
 ## 依赖

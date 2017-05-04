@@ -26,6 +26,12 @@ class FactorLoader:
         self._is_index = kwargs.get('is_index', True)
 
     @staticmethod
+    def _handle_special_params(params, ret):
+        if params.name[:-1] == 'sw_c':
+            ret += ';industryType=' + filter(str.isdigit, str(params.name))
+        return ret
+
+    @staticmethod
     def _merge_query_params(params, date=None):
         ret = ''
         for index, value in params.iteritems():
@@ -39,6 +45,7 @@ class FactorLoader:
                 else:
                     ret += (index + '=' + str(value) + ';')
         ret = ret[:-1]
+        ret = FactorLoader._handle_special_params(params, ret)
         return ret
 
     @staticmethod

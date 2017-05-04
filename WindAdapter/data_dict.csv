@@ -16,3 +16,5 @@ HIGH,wsd,high,F,,最高价,技术
 LOW,wsd,low,F,,最低价,技术
 CLOSE,wsd,close,F,,收盘价,技术
 VOLUME,wsd,volume,F,,成交量,技术
+SW_C1,wsd,indexcode_sw,,,股票所属申万一级行业代码,基本信息
+SW_C2,wsd,indexcode_sw,,,股票所属申万一级行业代码,基本信息
