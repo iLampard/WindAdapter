@@ -20,8 +20,7 @@ setup(name=NAME,
       url=URL,
       packages=find_packages(),
       install_requires=[
-          'numpy>=1.10.1',
-          'pandas>=0.18.0',
+          'pandas',
           'python-decouple>=3.0'
       ],
       classifiers=['Programming Language :: Python',
