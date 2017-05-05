@@ -5,7 +5,7 @@ from setuptools import setup
 
 PACKAGE = 'WindAdapter'
 NAME = 'WindAdapter'
-VERSION = '0.0.4'
+VERSION = '0.0.10'
 DESCRIPTION = 'Windpy data adapter'
 AUTHOR = 'iLampard, RoxanneYang'
 URL = 'https://github.com/iLampard/WindAdapter'
@@ -19,6 +19,7 @@ setup(name=NAME,
       author=AUTHOR,
       url=URL,
       packages=find_packages(),
+      package_data={'': ['*.csv']},
       install_requires=[
           'pandas',
           'python-decouple>=3.0'
