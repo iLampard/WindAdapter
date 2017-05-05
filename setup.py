@@ -11,8 +11,6 @@ AUTHOR = 'iLampard, RoxanneYang'
 URL = 'https://github.com/iLampard/WindAdapter'
 LICENSE = 'MIT'
 
-requirements = 'requirements.txt'
-
 setup(name=NAME,
       version=VERSION,
       description=DESCRIPTION,
