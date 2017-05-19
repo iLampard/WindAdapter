@@ -20,6 +20,7 @@ setup(name=NAME,
       package_data={'': ['*.csv']},
       install_requires=[
           'pandas',
+          'logbook',
           'python-decouple>=3.0'
       ],
       classifiers=['Programming Language :: Python',
