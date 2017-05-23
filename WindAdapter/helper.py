@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 
 import os
+
 import numpy as np
 import pandas as pd
 from decouple import config
+
 from WindAdapter.enums import Header
 from WindAdapter.enums import OutputFormat
 
@@ -52,13 +54,19 @@ class WindQueryHelper:
         return main_params, extra_params
 
     @staticmethod
+    def convert_2_multi_index(df):
+        df = df.copy()
+        df = df.stack()
+        df = pd.DataFrame(df)
+        df.index.names = INDEX_NAME.split(',')
+        df.columns = [SERIES_NAME]
+        return df
+
+    @staticmethod
     def reformat_wind_data(raw_data, date=None, output_data_format=OutputFormat.PITVOT_TABLE_DF):
         ret = pd.DataFrame(data=raw_data.Data,
                            columns=raw_data.Codes,
                            index=[date])
         if output_data_format == OutputFormat.MULTI_INDEX_DF:
-            ret = ret.stack()
-            ret = pd.DataFrame(ret)
-            ret.index.names = INDEX_NAME.split(',')
-            ret.columns = [SERIES_NAME]
+            ret = WindQueryHelper.convert_2_multi_index(ret)
         return ret

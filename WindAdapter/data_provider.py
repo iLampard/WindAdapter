@@ -31,7 +31,7 @@ class WindDataProvider:
             raise ValueError('{0}: empty data returned'.format(func_name))
 
     @staticmethod
-    def get_universe(index_id, date):
+    def get_universe(index_id, date, output_weight=False):
         index_id = index_id.lower()
         if index_id == 'fulla':
             code = 'a001010100000000'
@@ -39,11 +39,14 @@ class WindDataProvider:
                          else 'date=' + str(date) + ';sectorid=' + code, ';field=wind_code'
             raw_data = w.wset('sectorconstituent', params)
         else:
-            short_params = 'windcode=' + index_id + ';field=wind_code'
-            params = short_params if date is None else short_params + ';date=' + date
+            short_params = 'windcode=' + index_id
+            params = short_params if date is None else short_params + ';date=' + str(date)
             raw_data = w.wset('IndexConstituent', params)
         WindDataProvider.force_throw_err(raw_data, 'WindDataProvider.get_universe')
-        return raw_data.Data[0]
+        if output_weight:
+            return raw_data.Data
+        else:
+            return raw_data.Data[1]
 
     @staticmethod
     def advance_date(date, unit, freq):
@@ -68,3 +71,5 @@ class WindDataProvider:
 
         WindDataProvider.force_throw_err(ret, 'WindDataProvider.query_data')
         return ret
+
+

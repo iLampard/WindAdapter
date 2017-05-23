@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 
 import re
+
 import pandas as pd
+
 from WindAdapter.data_provider import WindDataProvider
 from WindAdapter.enums import FreqType
 from WindAdapter.enums import Header
@@ -26,9 +28,9 @@ class FactorLoader:
         self._is_index = kwargs.get('is_index', True)
 
     @staticmethod
-    def _handle_special_params(params, ret):
-        if params.name[:-1] == 'sw_c':
-            ret += ';industryType=' + filter(str.isdigit, str(params.name))
+    def _concat_industry_params(factor_name, ret):
+        if factor_name[:-1] == 'INDUSTRY_WEIGHT_C' or factor_name[:-1] == 'sw_c':
+            ret += ';industryType=' + filter(str.isdigit, str(factor_name))
         return ret
 
     @staticmethod
@@ -45,7 +47,7 @@ class FactorLoader:
                 else:
                     ret += (index + '=' + str(value) + ';')
         ret = ret[:-1]
-        ret = FactorLoader._handle_special_params(params, ret)
+        ret = FactorLoader._concat_industry_params(params.name, ret)
         return ret
 
     @staticmethod
@@ -96,7 +98,8 @@ class FactorLoader:
                                                          sec_id=sec_id,
                                                          indicator=main_params[Header.INDICATOR],
                                                          extra_params=merged_extra_params)
-
+            else:
+                raise ValueError('FactorLoader._retrieve_data: unacceptable value of parameter api')
             tmp = WIND_QUERY_HELPER.reformat_wind_data(raw_data=raw_data,
                                                        date=date,
                                                        output_data_format=output_data_format)
@@ -104,12 +107,45 @@ class FactorLoader:
 
         return output_data
 
-    def load_data(self):
+    def _load_single_factor(self):
         main_params, extra_params = WIND_QUERY_HELPER.get_query_params(self._factor_name)
         extra_params[Header.TENOR.value] = self._get_enum_value(self._tenor) if self._tenor is not None else None
         extra_params[Header.FREQ.value] = self._get_enum_value(self._freq)
         ret = self._retrieve_data(main_params=main_params,
                                   extra_params=extra_params,
                                   output_data_format=self._output_data_format)
+        return ret
 
+    def load_data(self):
+        if self._factor_name[:-3] == 'INDUSTRY_WEIGHT':
+            ret = self._load_industry_weight()
+        else:
+            ret = self._load_single_factor()
+        return ret
+
+    def _load_industry_weight(self):
+        ret = pd.DataFrame()
+        dates = WIND_DATA_PROVIDER.biz_days_list(start_date=self._start_date,
+                                                 end_date=self._end_date,
+                                                 freq=self._freq)
+        extra_params = FactorLoader._concat_industry_params(self._factor_name, "")
+        for date in dates:
+            date = date_convert_2_str(date)
+            index_info = WIND_DATA_PROVIDER.get_universe(self._sec_id, date=date, output_weight=True)
+            class_info = WIND_DATA_PROVIDER.query_data(api='w.wsd',
+                                                       sec_id=index_info[1],
+                                                       indicator='indexcode_sw',
+                                                       extra_params=extra_params,
+                                                       start_date=date,
+                                                       end_date=date)
+            industry_weight = pd.DataFrame(data={'sec_id': index_info[1],
+                                                 'class_id': class_info.Data[0],
+                                                 'sec_weight': index_info[3]},
+                                           index=index_info[0])
+
+            tmp = industry_weight.groupby('class_id').sum().T
+            tmp.index = [date]
+            tmp = WIND_QUERY_HELPER.convert_2_multi_index(tmp) \
+                if self._output_data_format == OutputFormat.MULTI_INDEX_DF else tmp
+            ret = ret.append(tmp)
         return ret

@@ -17,4 +17,6 @@ LOW,wsd,low,F,,最低价,技术
 CLOSE,wsd,close,F,,收盘价,技术
 VOLUME,wsd,volume,F,,成交量,技术
 SW_C1,wsd,indexcode_sw,,,股票所属申万一级行业代码,基本信息
-SW_C2,wsd,indexcode_sw,,,股票所属申万一级行业代码,基本信息
+SW_C2,wsd,indexcode_sw,,,股票所属申万二级行业代码,基本信息
+INDUSTRY_WEIGHT_C1,,,,,申万一级行业所占指数权重,基本信息
+INDUSTRY_WEIGHT_C2,,,,,申万二级行业所占指数权重,基本信息
