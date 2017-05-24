@@ -19,7 +19,7 @@
 
 *Note*
 
--  只有在数据字典中预定义好的因子才能利用*WindAdpater*读取，目前已整理好约20个因子的参数以及接口列表, 可使用*factor_help()*首先进行查询 
+-  只有在数据字典中预定义好的因子才能利用*WindAdpater*读取，目前已整理好约20个因子的参数以及接口列表, 可使用*factor_help*首先进行查询 
 -  用户可以在本地自行更新数据字典作为*WindAdpater*引用（方法见下文*reset_data_dict_path*）或者等待本项目后续更新
 
 
@@ -71,6 +71,9 @@ factor_load('2014-01-01', '2014-07-10', 'close', sec_id='fullA', is_index=True, 
 # 读取沪深300成分股从2014年1月至3月，频率为每月(freq=M)的季度(tenor='1Q')收益， 并保存成csv格式
 factor_load('2014-01-01', '2014-03-31', 'return', sec_id='000300.SH', is_index=True, freq='M', tenor='1Q', save_file='HS300_return_1Q.csv')
 
+# 读书指数成分股行业权重: 沪深300的申万一级行业权重分布
+# 由于申万一级行业于2014年2月进行了调整，而wind的行业代码不可回溯，故2014年2月前的指数成分股权重之和不等于1
+factor_load('2014-01-01', '2014-03-31', 'INDUSTRY_WEIGHT_C1', sec_id='000300.SH')
 
 ```
 *Note*: 返回的数据最近的日期等于入参中的end_date，前推的日期为根据频率(freq)和end_date往前推算的交易日
