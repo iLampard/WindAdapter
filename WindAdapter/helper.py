@@ -22,10 +22,10 @@ class WindQueryHelper:
             if not path_type_abs:
                 current_dir = os.path.dirname(os.path.abspath(__file__))
                 path = os.path.join(current_dir, data_dict_path)
-                self._data_dict_path = path
+                self.data_dict_path = path
             else:
-                self._data_dict_path = data_dict_path
-            self._data_dict = pd.read_csv(self._data_dict_path, index_col=0, encoding='gbk')
+                self.data_dict_path = data_dict_path
+            self._data_dict = pd.read_csv(self.data_dict_path, index_col=0, encoding='gbk')
         except ValueError:
             raise ValueError('data_dict fails to load')
 
@@ -43,8 +43,8 @@ class WindQueryHelper:
 
     def get_query_params(self, factor_name=None):
         try:
-            self._data_dict.index = self._data_dict.index.str.lower()
-            factor_params = self._data_dict.loc[factor_name.lower()]
+            self.data_dict.index = self.data_dict.index.str.lower()
+            factor_params = self.data_dict.loc[factor_name.lower()]
         except:
             raise ValueError(
                 'WindQueryHelper.get_query_params: failed to find params for factor {0}'.format(factor_name))
