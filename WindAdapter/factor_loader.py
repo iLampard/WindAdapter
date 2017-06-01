@@ -18,14 +18,14 @@ WIND_DATA_PROVIDER = WindDataProvider()
 
 class FactorLoader:
     def __init__(self, start_date, end_date, factor_name, **kwargs):
-        self._start_date = start_date
-        self._end_date = end_date
-        self._factor_name = factor_name
-        self._sec_id = kwargs.get('sec_id', 'fulla')
-        self._freq = kwargs.get('freq', FreqType.EOM)
-        self._tenor = kwargs.get('tenor', None)
-        self._output_data_format = kwargs.get('output_data_format', OutputFormat.MULTI_INDEX_DF)
-        self._is_index = kwargs.get('is_index', True)
+        self.start_date = start_date
+        self.end_date = end_date
+        self.factor_name = factor_name
+        self.sec_id = kwargs.get('sec_id', 'fulla')
+        self.freq = kwargs.get('freq', FreqType.EOM)
+        self.tenor = kwargs.get('tenor', None)
+        self.output_data_format = kwargs.get('output_data_format', OutputFormat.MULTI_INDEX_DF)
+        self.is_index = kwargs.get('is_index', True)
 
     @staticmethod
     def _concat_industry_params(factor_name, ret):
@@ -60,11 +60,11 @@ class FactorLoader:
             raise TypeError('Wring type of enum variable {0}'.format(enum_var))
 
     def _get_sec_id(self, date):
-        if isinstance(self._sec_id, basestring):
-            sec_id = WIND_DATA_PROVIDER.get_universe(self._sec_id, date=date) \
-                if self._is_index else self._sec_id
-        elif isinstance(self._sec_id, list):
-            sec_id = self._sec_id
+        if isinstance(self.sec_id, basestring):
+            sec_id = WIND_DATA_PROVIDER.get_universe(self.sec_id, date=date) \
+                if self.is_index else self.sec_id
+        elif isinstance(self.sec_id, list):
+            sec_id = self.sec_id
         else:
             raise TypeError('FactorLoader._get_sec_id: sec_id must be either list of string')
 
@@ -73,14 +73,14 @@ class FactorLoader:
     def _retrieve_data(self, main_params, extra_params, output_data_format):
         output_data = pd.DataFrame()
         api = main_params[Header.API]
-        dates = WIND_DATA_PROVIDER.biz_days_list(start_date=self._start_date,
-                                                 end_date=self._end_date,
-                                                 freq=self._freq)
+        dates = WIND_DATA_PROVIDER.biz_days_list(start_date=self.start_date,
+                                                 end_date=self.end_date,
+                                                 freq=self.freq)
         for date in dates:
             date = date_convert_2_str(date)
 
-            sec_id = WIND_DATA_PROVIDER.get_universe(self._sec_id, date=date) \
-                if self._is_index else self._sec_id
+            sec_id = WIND_DATA_PROVIDER.get_universe(self.sec_id, date=date) \
+                if self.is_index else self.sec_id
             if api == 'w.wsd':
                 merged_extra_params = self._merge_query_params(extra_params)
                 raw_data = WIND_DATA_PROVIDER.query_data(api=api,
@@ -92,7 +92,7 @@ class FactorLoader:
 
             elif api == 'w.wss':
                 py_assert(not pd.isnull(extra_params[Header.TENOR]), ValueError,
-                          'tenor must be given for query factor {0}'.format(self._factor_name))
+                          'tenor must be given for query factor {0}'.format(self.factor_name))
                 merged_extra_params = self._merge_query_params(extra_params, date=date)
                 raw_data = WIND_DATA_PROVIDER.query_data(api=api,
                                                          sec_id=sec_id,
@@ -108,16 +108,16 @@ class FactorLoader:
         return output_data
 
     def _load_single_factor(self):
-        main_params, extra_params = WIND_QUERY_HELPER.get_query_params(self._factor_name)
-        extra_params[Header.TENOR.value] = self._get_enum_value(self._tenor) if self._tenor is not None else None
-        extra_params[Header.FREQ.value] = self._get_enum_value(self._freq)
+        main_params, extra_params = WIND_QUERY_HELPER.get_query_params(self.factor_name)
+        extra_params[Header.TENOR.value] = self._get_enum_value(self.tenor) if self.tenor is not None else None
+        extra_params[Header.FREQ.value] = self._get_enum_value(self.freq)
         ret = self._retrieve_data(main_params=main_params,
                                   extra_params=extra_params,
-                                  output_data_format=self._output_data_format)
+                                  output_data_format=self.output_data_format)
         return ret
 
     def load_data(self):
-        if self._factor_name[:-3] == 'INDUSTRY_WEIGHT':
+        if self.factor_name[:-3] == 'INDUSTRY_WEIGHT':
             ret = self._load_industry_weight()
         else:
             ret = self._load_single_factor()
@@ -125,13 +125,13 @@ class FactorLoader:
 
     def _load_industry_weight(self):
         ret = pd.DataFrame()
-        dates = WIND_DATA_PROVIDER.biz_days_list(start_date=self._start_date,
-                                                 end_date=self._end_date,
-                                                 freq=self._freq)
-        extra_params = FactorLoader._concat_industry_params(self._factor_name, "")
+        dates = WIND_DATA_PROVIDER.biz_days_list(start_date=self.start_date,
+                                                 end_date=self.end_date,
+                                                 freq=self.freq)
+        extra_params = FactorLoader._concat_industry_params(self.factor_name, "")
         for date in dates:
             date = date_convert_2_str(date)
-            index_info = WIND_DATA_PROVIDER.get_universe(self._sec_id, date=date, output_weight=True)
+            index_info = WIND_DATA_PROVIDER.get_universe(self.sec_id, date=date, output_weight=True)
             class_info = WIND_DATA_PROVIDER.query_data(api='w.wsd',
                                                        sec_id=index_info[1],
                                                        indicator='indexcode_sw',
@@ -146,6 +146,6 @@ class FactorLoader:
             tmp = industry_weight.groupby('class_id').sum().T
             tmp.index = [date]
             tmp = WIND_QUERY_HELPER.convert_2_multi_index(tmp) \
-                if self._output_data_format == OutputFormat.MULTI_INDEX_DF else tmp
+                if self.output_data_format == OutputFormat.MULTI_INDEX_DF else tmp
             ret = ret.append(tmp)
         return ret
