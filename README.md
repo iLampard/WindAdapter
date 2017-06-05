@@ -27,8 +27,14 @@
 -  用户可以在本地自行更新数据字典作为*WindAdpater*引用（方法见下文*reset_data_dict_path*）或者等待本项目后续更新
 
 
-## 使用
+## Quick Start
 
+##### get_universe
+
+``` python
+# 读取2017年1月3日沪深300指数成分股(同时返回对应的权重如果output_weight=True)
+hs300_comp = get_universe('000300.SH', date='20170103', output_weight=True)
+```
 
 ##### factor_help
 

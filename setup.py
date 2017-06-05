@@ -5,7 +5,7 @@ from setuptools import setup
 
 PACKAGE = 'WindAdapter'
 NAME = 'WindAdapter'
-VERSION = '0.0.12'
+VERSION = '0.0.13'
 DESCRIPTION = 'Windpy data adapter'
 AUTHOR = 'iLampard, RoxanneYang'
 URL = 'https://github.com/iLampard/WindAdapter'
@@ -21,8 +21,9 @@ setup(name=NAME,
       install_requires=[
           'numpy',
           'pandas',
-	  'logbook',          
-	  'python-decouple>=3.0'
+          'logbook',
+          'argcheck',
+          'python-decouple>=3.0'
       ],
       classifiers=['Programming Language :: Python',
                    'Programming Language :: Python :: 2.7'])

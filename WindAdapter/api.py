@@ -37,15 +37,17 @@ def reset_data_dict_path(path, path_type_abs):
 
 
 @handle_wind_query_exception(LOGGER)
-def get_universe(index_id, date=None):
+def get_universe(index_id, date=None, output_weight=False):
     """
     :param index_id: str, 可以为指数代码或者'fullA'（指全市场股票），不区分大小写
     :param date: str, optional, YYYYMMDD/YYYY-MM-DD，默认为None，即返回最近交易日的成分股列表
-    :return: list, 成分股列表
+    :param output_weight: bool, optional, 是否返回对应的个股权重
+    :return: 如果output_weight=False, 返回list, 成分股列表
+             如果output_weight=True, 返回DataFrame
     """
     LOGGER.info('Loading the constituent stocks of index {0} at date {1}'.
                 format(index_id, datetime.date.today() if date is None else date))
-    ret = WindDataProvider.get_universe(index_id, date)
+    ret = WindDataProvider.get_universe(index_id, date, output_weight)
     LOGGER.info('Number of the loaded constituent stocks is {0}'.format(len(ret)))
     return ret
 
@@ -100,3 +102,10 @@ def factor_details_help():
     data_dict = WIND_QUERY_HELPER.data_dict
     print_table(data_dict, name='Data_Dict')
     return
+
+
+
+
+hs300_comp = get_universe('000300.SH', date='20170104', output_weight=True)
+
+print hs300_comp

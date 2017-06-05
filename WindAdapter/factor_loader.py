@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 
 import re
-
 import pandas as pd
-
+from argcheck import expect_types
 from WindAdapter.data_provider import WindDataProvider
 from WindAdapter.enums import FreqType
 from WindAdapter.enums import Header
@@ -30,7 +29,7 @@ class FactorLoader:
     @staticmethod
     def _concat_industry_params(factor_name, ret):
         if factor_name[:-1] == 'INDUSTRY_WEIGHT_C' or factor_name[:-1] == 'sw_c':
-            ret += ';industryType=' + filter(str.isdigit, str(factor_name))
+            ret += ';industryType=' + str(filter(str.isdigit, str(factor_name)))
         return ret
 
     @staticmethod
@@ -51,16 +50,15 @@ class FactorLoader:
         return ret
 
     @staticmethod
+    @expect_types(enum_var=(FreqType, str))
     def _get_enum_value(enum_var):
         if isinstance(enum_var, FreqType):
             return enum_var.value
-        elif isinstance(enum_var, basestring):
+        elif isinstance(enum_var, str):
             return enum_var
-        else:
-            raise TypeError('Wring type of enum variable {0}'.format(enum_var))
 
     def _get_sec_id(self, date):
-        if isinstance(self.sec_id, basestring):
+        if isinstance(self.sec_id, str):
             sec_id = WIND_DATA_PROVIDER.get_universe(self.sec_id, date=date) \
                 if self.is_index else self.sec_id
         elif isinstance(self.sec_id, list):
