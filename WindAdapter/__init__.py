@@ -3,6 +3,7 @@
 
 from WindAdapter.api import get_universe
 from WindAdapter.api import factor_load
+from WindAdapter.api import multi_factor_load
 from WindAdapter.api import factor_help
 from WindAdapter.api import factor_details_help
 from WindAdapter.api import reset_data_dict_path
@@ -10,6 +11,7 @@ from WindAdapter.api import reset_data_dict_path
 __all__ = ['version',
            'get_universe',
            'factor_load',
+           'multi_factor_load',
            'factor_help',
            'factor_details_help',
            'reset_data_dict_path']

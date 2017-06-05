@@ -2,6 +2,9 @@
 
 import os
 import datetime
+from argcheck import expect_types
+import pandas as pd
+from toolz import merge
 from WindAdapter.factor_loader import FactorLoader
 from WindAdapter.utils import save_data_to_file
 from WindAdapter.utils import print_table
@@ -9,6 +12,8 @@ from WindAdapter.utils import handle_wind_query_exception
 from WindAdapter.custom_logger import CustomLogger
 from WindAdapter.data_provider import WindDataProvider
 from WindAdapter.helper import WindQueryHelper
+from WindAdapter.enums import OutputFormat
+
 
 LOGGER = CustomLogger()
 WIND_DATA_PRODIVER = WindDataProvider()
@@ -84,6 +89,42 @@ def factor_load(start_date, end_date, factor_name, save_file=None, **kwargs):
     return ret
 
 
+@handle_wind_query_exception(LOGGER)
+@expect_types(factor_name=list)
+def multi_factor_load(start_date, end_date, factor_names, save_file=None, **kwargs):
+    """
+    :param start_date: str, 读取因子数据的开始日期
+    :param end_date: str, 读取因子数据的结束日期
+    :param factor_names: list of str, 因子名称，不区分大小写
+    :param save_file: str, optional, 保存数据的文件名，可写成 '*.csv' 或者 '*.pkl'
+    :param kwargs: dict, optional
+
+            freq: str, optional, 因子数据的频率， 可选'M', 'W', 'Q', 'S', 'Y'， 参见enums.py - FreqType
+            tenor: str, optional, 因子数据的周期， 对于截面数据（如换手率，收益率），需要给定数据区间(向前)， 可选数字+FreqType， 如'1Q'
+            sec_id, str/list, optional, 股票代码或者是指数代码
+            output_data_format: enum, optional, 参见enums.py - FreqType
+                                MULTI_INDEX_DF: multi-index DataFrame, index=[date, secID], value = factor
+                                PITVOT_TABLE_DF: DataFrame, index=date, columns = secID
+            is_index: bool, optional, True: 输入的sec_id是指数，实际需要读取的是该指数成分股的因子数据，
+                                      False: 直接读取sec_id的因子数据
+    :return: pd.DataFrame 整理好的因子数据
+    """
+    ret = pd.DataFrame()
+    for factor_name in factor_names:
+        LOGGER.info('Loading factor data {0}'.format(factor_name))
+        kwargs_ = merge(kwargs, {'output_data_format':OutputFormat.MULTI_INDEX_DF})
+        factor_loader = FactorLoader(start_date=start_date,
+                                     end_date=end_date,
+                                     factor_name=factor_name,
+                                     **kwargs_)
+        ret = pd.concat([ret, factor_loader.load_data()], axis=1)
+        LOGGER.info('factor data {0} is loaded '.format(factor_name))
+    if save_file:
+        save_data_to_file(ret, save_file)
+        LOGGER.critical('Data saved in {0}'.format(save_file))
+    return ret
+
+
 def factor_help():
     """
     :return: 返回定义的数据字典（简易版）
@@ -102,10 +143,3 @@ def factor_details_help():
     data_dict = WIND_QUERY_HELPER.data_dict
     print_table(data_dict, name='Data_Dict')
     return
-
-
-
-
-hs300_comp = get_universe('000300.SH', date='20170104', output_weight=True)
-
-print hs300_comp
