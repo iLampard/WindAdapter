@@ -122,7 +122,8 @@ factor_load('2014-01-01', '2014-07-10', ['PB', 'MV'], sec_id=['000001.SZ', '0000
 
 ```
 <br />
-其他细节参见[WindAdapter tutorial](/example/tutorial.md) 
+
+其他细节参见[WindAdapter tutorial](/example/tutorial.ipymd) 
 
 
 ## 依赖
