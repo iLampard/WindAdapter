@@ -4,6 +4,7 @@ try:
     from WindPy import w
 except ImportError:
     raise ValueError('Failed to import WindPy')
+import pandas as pd
 
 
 class WindRunner:
@@ -44,7 +45,7 @@ class WindDataProvider:
             raw_data = w.wset('IndexConstituent', params)
         WindDataProvider.force_throw_err(raw_data, 'WindDataProvider.get_universe')
         if output_weight:
-            return raw_data.Data
+            return pd.DataFrame(data=raw_data.Data[3], index=raw_data.Data[1], columns=['weight'])
         else:
             return raw_data.Data[1]
 
