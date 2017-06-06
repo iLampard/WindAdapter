@@ -12,8 +12,8 @@ from WindAdapter.enums import OutputFormat
 DATA_DICT_PATH = config('DATA_DICT_PATH', default='data_dict.csv')
 DATA_DICT_PATH_TYPE_ABS = config('DATA_DICT_PATH_TYPE_ABS', default=False, cast=bool)
 
-INDEX_NAME = config('MULTI_INDEX_COL_NAMES', default='date, secID')
-SERIES_NAME = config('MULTI_INDEX_SERIES_NAME', default='factor')
+INDEX_NAME = config('MULTI_INDEX_NAMES', default='date, secID')
+COL_NAME = config('DF_COL_NAME', default='factor')
 
 
 class WindQueryHelper:
@@ -59,7 +59,7 @@ class WindQueryHelper:
         df = df.stack()
         df = pd.DataFrame(df)
         df.index.names = INDEX_NAME.split(',')
-        df.columns = [SERIES_NAME]
+        df.columns = [COL_NAME]
         return df
 
     @staticmethod

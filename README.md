@@ -115,11 +115,13 @@ factor_load('2014-01-01', '2014-03-31', 'INDUSTRY_WEIGHT_C1', sec_id='000300.SH'
             ...
 ```
 
+factor_load还可以接受lsit of factor names 进行数据读取
+
+``` python
+factor_load('2014-01-01', '2014-07-10', ['PB', 'MV'], sec_id=['000001.SZ', '000002.SZ'], is_index=False,reset_col_names=True)
+
+```
 <br />
-
-
-
-
 其他细节参见[WindAdapter tutorial](/example/tutorial.md) 
 
 
