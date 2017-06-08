@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import datetime
 import os
 
 import numpy as np
@@ -70,3 +71,16 @@ class WindQueryHelper:
         if output_data_format == OutputFormat.MULTI_INDEX_DF:
             ret = WindQueryHelper.convert_2_multi_index(ret)
         return ret
+
+    @staticmethod
+    def latest_report_date(date):
+        month = date.month
+        if month <= 4:
+            date = datetime.datetime(date.year - 1, 12, 31)
+        elif month <= 8:
+            date = datetime.datetime(date.year, 3, 31)
+        elif month <= 11:
+            date = datetime.datetime(date.year, 6, 30)
+        else:
+            date = datetime.datetime(date.year, 9, 30)
+        return date

@@ -27,7 +27,7 @@ class FactorLoader:
         self.is_index = kwargs.get('is_index', True)
 
     @staticmethod
-    def _concat_industry_params(factor_name, ret):
+    def _concat_industry_params(factor_name, ret, date=None):
         if factor_name[:-1] == 'INDUSTRY_WEIGHT_C' or factor_name[:-1] == 'sw_c':
             ret += ';industryType=' + str(filter(str.isdigit, str(factor_name)))
         return ret
@@ -46,7 +46,7 @@ class FactorLoader:
                 else:
                     ret += (index + '=' + str(value) + ';')
         ret = ret[:-1]
-        ret = FactorLoader._concat_industry_params(params.name, ret)
+        ret = FactorLoader._concat_industry_params(params.name, ret, date)
         return ret
 
     @staticmethod
@@ -74,13 +74,17 @@ class FactorLoader:
         dates = WIND_DATA_PROVIDER.biz_days_list(start_date=self.start_date,
                                                  end_date=self.end_date,
                                                  freq=self.freq)
-        for date in dates:
+        for fetch_date in dates:
+            if extra_params[Header.REPORTADJ] is not None:
+                date = WindQueryHelper.latest_report_date(fetch_date)
+            else:
+                date = fetch_date
             date = date_convert_2_str(date)
 
             sec_id = WIND_DATA_PROVIDER.get_universe(self.sec_id, date=date) \
                 if self.is_index else self.sec_id
             if api == 'w.wsd':
-                merged_extra_params = self._merge_query_params(extra_params)
+                merged_extra_params = self._merge_query_params(extra_params, date=date)
                 raw_data = WIND_DATA_PROVIDER.query_data(api=api,
                                                          sec_id=sec_id,
                                                          indicator=main_params[Header.INDICATOR],
@@ -99,7 +103,7 @@ class FactorLoader:
             else:
                 raise ValueError('FactorLoader._retrieve_data: unacceptable value of parameter api')
             tmp = WIND_QUERY_HELPER.reformat_wind_data(raw_data=raw_data,
-                                                       date=date,
+                                                       date=fetch_date,
                                                        output_data_format=output_data_format)
             output_data = pd.concat([output_data, tmp], axis=0)
 

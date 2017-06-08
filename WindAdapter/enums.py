@@ -42,6 +42,7 @@ class Header(StrEnum):
     CYCLE = 'cycle'
     EXPLANATION = 'explanation'
     TYPE = 'type'
+    REPORTADJ = 'reportadj'
 
 
 @unique
