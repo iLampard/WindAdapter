@@ -64,10 +64,10 @@ class WindQueryHelper:
         return df
 
     @staticmethod
-    def reformat_wind_data(raw_data, date=None, output_data_format=OutputFormat.PITVOT_TABLE_DF):
+    def reformat_wind_data(raw_data, date, output_data_format=OutputFormat.PITVOT_TABLE_DF):
         ret = pd.DataFrame(data=raw_data.Data,
                            columns=raw_data.Codes,
-                           index=[date])
+                           index=[date.strftime('%Y-%m-%d')])
         if output_data_format == OutputFormat.MULTI_INDEX_DF:
             ret = WindQueryHelper.convert_2_multi_index(ret)
         return ret

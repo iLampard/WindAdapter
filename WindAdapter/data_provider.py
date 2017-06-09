@@ -17,6 +17,8 @@ class WindRunner:
     def __del__(self):
         try:
             w.stop()
+        except AttributeError:
+            pass
         except NameError:
             pass
 
