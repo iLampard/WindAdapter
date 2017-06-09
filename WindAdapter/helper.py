@@ -76,7 +76,7 @@ class WindQueryHelper:
     def latest_report_date(date):
         month = date.month
         if month <= 4:
-            date = datetime.datetime(date.year - 1, 12, 31)
+            date = datetime.datetime(date.year - 1, 9, 30)
         elif month <= 8:
             date = datetime.datetime(date.year, 3, 31)
         elif month <= 11:

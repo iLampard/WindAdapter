@@ -4,7 +4,7 @@ import pandas as pd
 try:
     from WindPy import w
 except ImportError:
-    raise ValueError('Failed to import WindPy')
+    pass
 
 
 class WindRunner:
@@ -37,7 +37,7 @@ class WindDataProvider:
         if index_id == 'fulla':
             code = 'a001010100000000'
             params = 'sectorid=' + code + ';field=wind_code' if date is None \
-                         else 'date=' + str(date) + ';sectorid=' + code
+                else 'date=' + str(date) + ';sectorid=' + code
             raw_data = w.wset('sectorconstituent', params)
         else:
             short_params = 'windcode=' + index_id

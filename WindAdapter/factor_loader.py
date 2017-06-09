@@ -2,6 +2,7 @@
 
 import re
 import pandas as pd
+import numpy as np
 from argcheck import expect_types
 from WindAdapter.data_provider import WindDataProvider
 from WindAdapter.enums import FreqType
@@ -75,7 +76,7 @@ class FactorLoader:
                                                  end_date=self.end_date,
                                                  freq=self.freq)
         for fetch_date in dates:
-            if extra_params[Header.REPORTADJ] is not None:
+            if np.isnan(extra_params[Header.REPORTADJ]):
                 date = WIND_QUERY_HELPER.latest_report_date(fetch_date)
             else:
                 date = fetch_date
