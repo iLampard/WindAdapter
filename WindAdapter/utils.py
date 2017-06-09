@@ -52,7 +52,7 @@ def handle_wind_query_exception(logger):
         def wrapper(*args, **kwargs):
             try:
                 return query_func(*args, **kwargs)
-            except Exception, e:
+            except Exception as e:
                 logger.critical('Exception in function {0} -- {1}'.format(query_func.__name__, e))
 
         return wrapper
