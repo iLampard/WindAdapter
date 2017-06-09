@@ -76,7 +76,7 @@ class FactorLoader:
                                                  end_date=self.end_date,
                                                  freq=self.freq)
         for fetch_date in dates:
-            if np.isnan(extra_params[Header.REPORTADJ]):
+            if not extra_params[Header.REPORTADJ] == 'nan':
                 date = WIND_QUERY_HELPER.latest_report_date(fetch_date)
             else:
                 date = fetch_date

@@ -48,7 +48,7 @@ class WindQueryHelper:
             factor_params = self.data_dict.loc[factor_name.lower()]
         except:
             raise ValueError(
-                'WindQueryHelper.get_query_params: failed to find params for factor {0}'.format(factor_name))
+                'WindQueryHelper.get_query_params: failed to find params for factor {0}, check factor name spelling'.format(factor_name))
         main_params, extra_params = WindQueryHelper._split_params(factor_params)
         main_params[Header.API] = 'w.' + main_params[Header.API]
 
