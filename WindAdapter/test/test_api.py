@@ -4,7 +4,7 @@ import unittest
 from datetime import datetime
 
 import pandas as pd
-from mock.mock import patch
+from mock import patch
 from pandas.util.testing import assert_frame_equal
 
 from WindAdapter.api import factor_load
