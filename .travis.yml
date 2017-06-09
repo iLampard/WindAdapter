@@ -6,6 +6,7 @@ python:
 install:
   - python setup.py install
   - pip install coveralls
+  - pip install mock
 # command to run tests
 script:
   - coverage run WindAdapter/test/test_api.py
