@@ -19,6 +19,7 @@ setup(name=NAME,
       packages=find_packages(),
       package_data={'': ['*.csv']},
       install_requires=[
+          'enum',
           'mock',
           'numpy',
           'pandas',
