@@ -27,10 +27,11 @@ class FactorLoader:
         self.is_index = kwargs.get('is_index', True)
 
     @staticmethod
-    def _concat_industry_params(factor_name, ret, date=None):
+    def _check_industry_params(factor_name):
         if factor_name[:-1] == 'INDUSTRY_WEIGHT_C' or factor_name[:-1] == 'sw_c':
-            ret += ';industryType=' + str(filter(str.isdigit, str(factor_name)))
-        return ret
+            return ';industryType=' + str(filter(str.isdigit, str(factor_name)))
+        else:
+            return ''
 
     @staticmethod
     def _merge_query_params(params, date=None):
@@ -41,12 +42,11 @@ class FactorLoader:
                     py_assert(date is not None, ValueError, 'date must given if tenor is not None')
                     unit = ''.join(re.findall('[0-9]+', params[Header.TENOR]))
                     freq = FreqType(params[Header.TENOR][len(unit):])
-                    ret += 'startDate=' + WindDataProvider.advance_date(date, unit, freq).strftime(
+                    ret += 'startDate=' + WIND_DATA_PROVIDER.advance_date(date, unit, freq).strftime(
                         '%Y%m%d') + ';endDate=' + date + ';'
                 else:
                     ret += (index + '=' + str(value) + ';')
-        ret = ret[:-1]
-        ret = FactorLoader._concat_industry_params(params.name, ret, date)
+        ret = ret[:-1] + FactorLoader._check_industry_params(params.name)
         return ret
 
     @staticmethod
@@ -76,7 +76,7 @@ class FactorLoader:
                                                  freq=self.freq)
         for fetch_date in dates:
             if extra_params[Header.REPORTADJ] is not None:
-                date = WindQueryHelper.latest_report_date(fetch_date)
+                date = WIND_QUERY_HELPER.latest_report_date(fetch_date)
             else:
                 date = fetch_date
             date = date_convert_2_str(date)
@@ -130,7 +130,7 @@ class FactorLoader:
         dates = WIND_DATA_PROVIDER.biz_days_list(start_date=self.start_date,
                                                  end_date=self.end_date,
                                                  freq=self.freq)
-        extra_params = FactorLoader._concat_industry_params(self.factor_name, "")
+        extra_params = self._check_industry_params(self.factor_name)
         for date in dates:
             date = date_convert_2_str(date)
             index_info = WIND_DATA_PROVIDER.get_universe(self.sec_id, date=date, output_weight=True)
