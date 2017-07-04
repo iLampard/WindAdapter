@@ -3,13 +3,13 @@
 import unittest
 from datetime import datetime
 import pandas as pd
+
 try:
     from unittest.mock import patch
 except ImportError:
     from mock import patch
 from pandas.util.testing import assert_frame_equal
 from WindAdapter.api import factor_load
-from WindAdapter.enums import OutputFormat
 
 
 class MockWindData(object):
@@ -24,6 +24,7 @@ class MockWindData(object):
 class TestApi(unittest.TestCase):
     @patch('WindAdapter.data_provider.WindDataProvider.query_data')
     def testFactorLoad_case1(self, mock_query_data):
+        from WindAdapter.enums import OutputFormat
         start_date = '2016-01-01'
         end_date = '2016-02-01'
         factor_name = 'PB'
@@ -66,6 +67,7 @@ class TestApi(unittest.TestCase):
     @patch('WindAdapter.data_provider.WindDataProvider.biz_days_list')
     @patch('WindAdapter.data_provider.WindDataProvider.advance_date')
     def testFactorLoad_case2(self, mock_adv_date, mock_days_list, mock_query_data):
+        from WindAdapter.enums import OutputFormat
         start_date = '2016-01-01'
         end_date = '2016-02-01'
         factor_name = 'STDQ'
