@@ -3,7 +3,6 @@
 import unittest
 from datetime import datetime
 import pandas as pd
-
 try:
     from unittest.mock import patch
 except ImportError:

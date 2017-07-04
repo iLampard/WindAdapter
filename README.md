@@ -4,10 +4,6 @@
   <td><img src="https://img.shields.io/pypi/v/WindAdapter.svg" alt="latest release" /></td>
 </tr>
 
-<tr>
-  <td>Build</td>
-  <td><img src="https://travis-ci.org/iLampard/WindAdapter.svg?branch=master" alt="build" /></td>
-</tr>
 
 <tr>
   <td>Python version</td>
