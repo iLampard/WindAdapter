@@ -7,7 +7,7 @@ install:
   - python setup.py install
   - pip install coveralls
   - pip install mock
-  - pip install enum
+  - pip install enum34
 # command to run tests
 script:
   - coverage run WindAdapter/test/test_api.py
