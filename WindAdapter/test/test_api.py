@@ -8,7 +8,6 @@ try:
 except ImportError:
     from mock import patch
 from pandas.util.testing import assert_frame_equal
-
 from WindAdapter.api import factor_load
 from WindAdapter.enums import OutputFormat
 
