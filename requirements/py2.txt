@@ -1,0 +1,7 @@
+enum34>=1.0.4
+mock
+numpy
+pandas>=0.18.0
+logbook
+argcheck
+python-decouple>=3.0

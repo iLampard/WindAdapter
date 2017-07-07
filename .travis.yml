@@ -7,9 +7,13 @@ install:
   - python setup.py install
   - pip install coveralls
   - pip install mock
-  - pip install enum34
+  - pip install --upgrade pip
+  - if [[ "$TRAVIS_PYTHON_VERSION" == "2.7" ]]; then
+      pip install enum34;
+    fi
+  - pip install IPython
 # command to run tests
 script:
-  - coverage run WindAdapter/test/test_api.py
+  - coverage run WindAdapter/test_api.py
 after_success:
   - coveralls
