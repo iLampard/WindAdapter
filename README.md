@@ -11,6 +11,13 @@
   </tr>
 </table>
 
+<table>
+<tr>
+  <td>Build Status</td>
+  <td><img src="https://travis-ci.org/iLampard/WindAdapter.svg?branch=master" alt="build status" /></td>
+</tr>
+
+
 # WindAdapter
 
 *WindAdapter*是一个从wind网络终端读取和整理因子数据的简单工具: 相比于直接使用wsd/wss等wind函数, *WindAdapter*根据预先定义好的参数字典(用户也可以自行扩展更新), 可以让用户更便捷的读取和整理数据
