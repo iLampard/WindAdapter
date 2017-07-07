@@ -9,13 +9,12 @@
   <td>Python version</td>
   <td><img src="https://img.shields.io/badge/python-2.7-blue.svg"/>   <img src="https://img.shields.io/badge/python-3.5-blue.svg"/></td>
   </tr>
-</table>
 
-<table>
 <tr>
   <td>Build Status</td>
   <td><img src="https://travis-ci.org/iLampard/WindAdapter.svg?branch=master" alt="build status" /></td>
 </tr>
+</table>
 
 
 # WindAdapter
