@@ -37,7 +37,7 @@ class WindDataProvider:
             raise ValueError('{0}: empty data returned'.format(func_name))
 
     @staticmethod
-    def get_universe(index_id, date, output_weight=False):
+    def get_universe(index_id, date=None, output_weight=False):
         index_id = index_id.lower()
         try:
             if index_id == 'fulla':
