@@ -10,9 +10,9 @@ class StrEnum(str, Enum):
 
 
 class FreqType(StrEnum):
-    MIN1 = 'min1'
-    MIN5 = 'min5'
-    MIN10 = 'min10'
+    MIN1 = '1'
+    MIN5 = '5'
+    MIN10 = '10'
     EOD = 'D'
     EOW = 'W'
     EOM = 'M'
