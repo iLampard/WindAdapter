@@ -1,0 +1,7 @@
+include MANIFEST.in
+include .coveragerc
+recursive-include . *.txt
+recursive-include WindAdapter *.csv
+recursive-include WindAdapter *.pyx
+recursive-include WindAdapter *.pxd
+recursive-include . *.md
