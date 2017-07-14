@@ -10,9 +10,9 @@ class StrEnum(str, Enum):
 
 
 class FreqType(StrEnum):
-    MIN1 = '1'
-    MIN5 = '5'
-    MIN10 = '10'
+    MIN1 = 'min1'
+    MIN5 = 'min5'
+    MIN10 = 'min10'
     EOD = 'D'
     EOW = 'W'
     EOM = 'M'
@@ -39,6 +39,7 @@ class Header(StrEnum):
     EXPLANATION = 'explanation'
     TYPE = 'type'
     REPORTADJ = 'reportadj'
+    MULTIFACTORS = 'multifactors'
 
 
 class WindDataType(IntEnum):

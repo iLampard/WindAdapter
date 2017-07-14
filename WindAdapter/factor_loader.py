@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 
 import re
+
 import pandas as pd
-import numpy as np
 from argcheck import expect_types
+
 from WindAdapter.data_provider import WindDataProvider
 from WindAdapter.enums import FreqType
 from WindAdapter.enums import Header
@@ -29,7 +30,7 @@ class FactorLoader:
 
     @staticmethod
     def _check_industry_params(factor_name):
-        if factor_name[:-1] == 'INDUSTRY_WEIGHT_C' or factor_name[:-1] == 'sw_c':
+        if factor_name[:-1] == 'INDUSTRY_WEIGHT_C' or factor_name[:-1] == 'sw_c' or factor_name[:-1] == 'sw_name_c':
             return ';industryType=' + str(filter(str.isdigit, str(factor_name)))
         else:
             return ''
@@ -45,6 +46,8 @@ class FactorLoader:
                     freq = FreqType(params[Header.TENOR][len(unit):])
                     ret += 'startDate=' + WIND_DATA_PROVIDER.advance_date(date, unit, freq).strftime(
                         '%Y%m%d') + ';endDate=' + date + ';'
+                elif index == Header.FREQ and value[:3] == 'min':
+                    ret += ('BarSize=' + value[3:] + ';')
                 else:
                     ret += (index + '=' + str(value) + ';')
         ret = ret[:-1] + FactorLoader._check_industry_params(params.name)
@@ -72,41 +75,56 @@ class FactorLoader:
     def _retrieve_data(self, main_params, extra_params, output_data_format):
         output_data = pd.DataFrame()
         api = main_params[Header.API]
-        dates = WIND_DATA_PROVIDER.biz_days_list(start_date=self.start_date,
-                                                 end_date=self.end_date,
-                                                 freq=self.freq)
-        for fetch_date in dates:
-            if not extra_params[Header.REPORTADJ] == 'nan':
-                date = WIND_QUERY_HELPER.latest_report_date(fetch_date)
-            else:
-                date = fetch_date
-            date = date_convert_2_str(date)
 
-            sec_id = WIND_DATA_PROVIDER.get_universe(self.sec_id, date=date) \
-                if self.is_index else self.sec_id
-            if api == 'w.wsd':
-                merged_extra_params = self._merge_query_params(extra_params, date=date)
-                raw_data = WIND_DATA_PROVIDER.query_data(api=api,
-                                                         sec_id=sec_id,
-                                                         indicator=main_params[Header.INDICATOR],
-                                                         extra_params=merged_extra_params,
-                                                         start_date=date,
-                                                         end_date=date)
+        if api == 'w.wsi':
+            merged_extra_params = self._merge_query_params(extra_params, date=self.end_date)
+            raw_data = WIND_DATA_PROVIDER.query_data(api=api,
+                                                     sec_id=self.sec_id,
+                                                     indicator=main_params[Header.INDICATOR],
+                                                     extra_params=merged_extra_params,
+                                                     start_date=self.start_date,
+                                                     end_date=self.end_date)
+            multi_factors = True if extra_params[Header.MULTIFACTORS] == 'Y' else False
+            output_data = WIND_QUERY_HELPER.reformat_wind_data(raw_data=raw_data, date=self.end_date,
+                                                               multi_factors=multi_factors)
+        else:
+            dates = WIND_DATA_PROVIDER.biz_days_list(start_date=self.start_date,
+                                                     end_date=self.end_date,
+                                                     freq=self.freq)
+            for fetch_date in dates:
+                if not extra_params[Header.REPORTADJ] == 'nan':
+                    date = WIND_QUERY_HELPER.latest_report_date(fetch_date)
+                else:
+                    date = fetch_date
+                date = date_convert_2_str(date)
 
-            elif api == 'w.wss':
-                py_assert(not pd.isnull(extra_params[Header.TENOR]), ValueError,
-                          'tenor must be given for query factor {0}'.format(self.factor_name))
-                merged_extra_params = self._merge_query_params(extra_params, date=date)
-                raw_data = WIND_DATA_PROVIDER.query_data(api=api,
-                                                         sec_id=sec_id,
-                                                         indicator=main_params[Header.INDICATOR],
-                                                         extra_params=merged_extra_params)
-            else:
-                raise ValueError('FactorLoader._retrieve_data: unacceptable value of parameter api')
-            tmp = WIND_QUERY_HELPER.reformat_wind_data(raw_data=raw_data,
-                                                       date=fetch_date,
-                                                       output_data_format=output_data_format)
-            output_data = pd.concat([output_data, tmp], axis=0)
+                sec_id = WIND_DATA_PROVIDER.get_universe(self.sec_id, date=date) \
+                    if self.is_index else self.sec_id
+                if api == 'w.wsd':
+                    merged_extra_params = self._merge_query_params(extra_params, date=date)
+                    raw_data = WIND_DATA_PROVIDER.query_data(api=api,
+                                                             sec_id=sec_id,
+                                                             indicator=main_params[Header.INDICATOR],
+                                                             extra_params=merged_extra_params,
+                                                             start_date=date,
+                                                             end_date=date)
+                elif api == 'w.wss':
+                    py_assert(not pd.isnull(extra_params[Header.TENOR]), ValueError,
+                              'tenor must be given for query factor {0}'.format(self.factor_name))
+                    merged_extra_params = self._merge_query_params(extra_params, date=date)
+                    raw_data = WIND_DATA_PROVIDER.query_data(api=api,
+                                                             sec_id=sec_id,
+                                                             indicator=main_params[Header.INDICATOR],
+                                                             extra_params=merged_extra_params)
+                else:
+                    raise ValueError('FactorLoader._retrieve_data: unacceptable value of parameter api')
+
+                multi_factors = True if extra_params[Header.MULTIFACTORS] == 'Y' else False
+                tmp = WIND_QUERY_HELPER.reformat_wind_data(raw_data=raw_data,
+                                                           date=fetch_date,
+                                                           output_data_format=output_data_format,
+                                                           multi_factors=multi_factors)
+                output_data = pd.concat([output_data, tmp], axis=0)
 
         return output_data
 

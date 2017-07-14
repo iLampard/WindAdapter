@@ -81,6 +81,8 @@ class WindDataProvider:
             ret = eval(api)(sec_id, indicator, start_date, end_date, extra_params)
         elif api == 'w.wss':
             ret = eval(api)(sec_id, indicator, extra_params)
+        elif api == 'w.wsi':
+            ret = eval(api)(sec_id, indicator, start_date, end_date, extra_params)
         else:
             raise ValueError('WindDataProvider.query_data: unknown type of api')
 

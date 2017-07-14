@@ -16,7 +16,7 @@ def save_data_to_file(data, save_file_name):
 
     save_file_type = save_file_name.split('.')[1]
     if save_file_type == 'csv':
-        data.to_csv(save_file_name)
+        data.to_csv(save_file_name, encoding='gbk')
     elif save_file_type == 'pkl':
         pkl_dump_data(data, save_file_name)
     else:

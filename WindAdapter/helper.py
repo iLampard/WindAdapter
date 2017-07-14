@@ -13,7 +13,7 @@ from WindAdapter.enums import OutputFormat
 DATA_DICT_PATH = config('DATA_DICT_PATH', default='data_dict.csv')
 DATA_DICT_PATH_TYPE_ABS = config('DATA_DICT_PATH_TYPE_ABS', default=False, cast=bool)
 
-INDEX_NAME = config('MULTI_INDEX_NAMES', default='date, secID')
+INDEX_NAME = config('MULTI_INDEX_NAMES', default='date,secID')
 COL_NAME = config('DF_COL_NAME', default='factor')
 
 
@@ -48,7 +48,8 @@ class WindQueryHelper:
             factor_params = self.data_dict.loc[factor_name.lower()]
         except:
             raise ValueError(
-                'WindQueryHelper.get_query_params: failed to find params for factor {0}, check factor name spelling'.format(factor_name))
+                'WindQueryHelper.get_query_params: failed to find params for factor {0}, check factor name spelling'.format(
+                    factor_name))
         main_params, extra_params = WindQueryHelper._split_params(factor_params)
         main_params[Header.API] = 'w.' + main_params[Header.API]
 
@@ -64,12 +65,18 @@ class WindQueryHelper:
         return df
 
     @staticmethod
-    def reformat_wind_data(raw_data, date, output_data_format=OutputFormat.PITVOT_TABLE_DF):
-        ret = pd.DataFrame(data=raw_data.Data,
-                           columns=raw_data.Codes,
-                           index=[date.strftime('%Y-%m-%d')])
-        if output_data_format == OutputFormat.MULTI_INDEX_DF:
-            ret = WindQueryHelper.convert_2_multi_index(ret)
+    def reformat_wind_data(raw_data, date, output_data_format=OutputFormat.PITVOT_TABLE_DF, multi_factors=False):
+        if not multi_factors:
+            ret = pd.DataFrame(data=raw_data.Data,
+                               columns=raw_data.Codes,
+                               index=[date.strftime('%Y-%m-%d')])
+            if output_data_format == OutputFormat.MULTI_INDEX_DF:
+                ret = WindQueryHelper.convert_2_multi_index(ret)
+        else:
+            ret = pd.DataFrame(data=np.array(raw_data.Data).T,
+                               index=pd.MultiIndex.from_arrays([raw_data.Times, raw_data.Codes*len(raw_data.Times)],
+                                                               names=['date', 'secID']),
+                               columns=raw_data.Fields)
         return ret
 
     @staticmethod
