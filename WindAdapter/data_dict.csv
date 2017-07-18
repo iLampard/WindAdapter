@@ -1,12 +1,11 @@
 name,api,indicator,priceadj,unit,reportadj,multifactors,explanation,type
 MV,wsd,mkt_cap,F,100000000,,,总市值（不可回测）,规模
 PB,wsd,pb_lf,F,,,,市净率PB（LF）,价值
-STDQ,wss,turn_free_per,,,,,区间换手率（基准 自由流通股本）,流动性
+STDQ,wsd,free_turn,,,,,换手率（基准 自由流通股本）,流动性
 EquityGrowth_YoY,wsd,yoy_equity,,,,,净资产（同比增长率）,成长
 ROE,wsd,roe_avg,,,,,净资产收益率（平均）,盈利
 ProfitGrowth_Qr_YoY,wsd,qfa_yoyprofit,,,,,单季度 净利润同比增长率,盈利
-TO_adj,wss,avg_turn_free_per,,,,,区间日均换手率（基准 自由流通股本）,流动性
-RETURN,wss,pct_chg_per,,,,,区间涨跌幅,估值
+RETURN,wsd,pct_chg,,,,,涨跌幅,估值
 GrossProfit,wsd,grossmargin,,100000000,,,毛利,盈利
 EP,wsd,deductedprofit_ttm,,100000000,,,扣除非经常性损益后的净利润（TTM）,盈利
 SP,wsd,gr_ttm,,100000000,,,营业总收入（TTM）,盈利
