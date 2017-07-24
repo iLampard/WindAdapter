@@ -1,27 +1,27 @@
 name,api,indicator,priceadj,unit,reportadj,multifactors,explanation,type
-MV,wsd,mkt_cap_ard,F,100000000,,,æ€»å¸‚å€¼ï¼ˆä¸ªè‚¡å½“æ—¥è‚¡ä»·*å½“æ—¥æ€»è‚¡æœ¬ï¼‰,è§„æ¨¡
-PB,wsd,pb_lf,F,,,,å¸‚å‡€çŽ‡PBï¼ˆLFï¼‰,ä»·å€¼
-STDQ,wsd,free_turn,,,,,æ¢æ‰‹çŽ‡ï¼ˆåŸºå‡† è‡ªç”±æµé€šè‚¡æœ¬ï¼‰,æµåŠ¨æ€§
-EquityGrowth_YoY,wsd,yoy_equity,,,,,å‡€èµ„äº§ï¼ˆåŒæ¯”å¢žé•¿çŽ‡ï¼‰,æˆé•¿
-ROE,wsd,roe_avg,,,,,å‡€èµ„äº§æ”¶ç›ŠçŽ‡ï¼ˆå¹³å‡ï¼‰,ç›ˆåˆ©
-ProfitGrowth_Qr_YoY,wsd,qfa_yoyprofit,,,,,å•å­£åº¦ å‡€åˆ©æ¶¦åŒæ¯”å¢žé•¿çŽ‡,ç›ˆåˆ©
-RETURN,wsd,pct_chg,,,,,æ¶¨è·Œå¹…,ä¼°å€¼
-GrossProfit,wsd,grossmargin,,100000000,,,æ¯›åˆ©,ç›ˆåˆ©
-EP,wsd,deductedprofit_ttm,,100000000,,,æ‰£é™¤éžç»å¸¸æ€§æŸç›ŠåŽçš„å‡€åˆ©æ¶¦ï¼ˆTTMï¼‰,ç›ˆåˆ©
-SP,wsd,gr_ttm,,100000000,,,è¥ä¸šæ€»æ”¶å…¥ï¼ˆTTMï¼‰,ç›ˆåˆ©
-OHLCV_DAY,wsd,"open,high,low,close,volume",F,,,Y,å¼€ç›˜ä»·ã€æœ€é«˜ä»·ã€æœ€ä½Žä»·ã€æ”¶ç›˜ä»·ã€æˆäº¤é‡(æ—¥é¢‘æ•°æ®),æŠ€æœ¯
-OHLCV_MIN,wsi,"open,high,low,close,volume",F,,,Y,å¼€ç›˜ä»·ã€æœ€é«˜ä»·ã€æœ€ä½Žä»·ã€æ”¶ç›˜ä»·ã€æˆäº¤é‡(åˆ†é’Ÿé¢‘æ•°æ®),æŠ€æœ¯
-OPEN,wsd,open,F,,,,å¼€ç›˜ä»·,æŠ€æœ¯
-HIGH,wsd,high,F,,,,æœ€é«˜ä»·,æŠ€æœ¯
-LOW,wsd,low,F,,,,æœ€ä½Žä»·,æŠ€æœ¯
-CLOSE,wsd,close,F,,,,æ”¶ç›˜ä»·,æŠ€æœ¯
-VOLUME,wsd,volume,F,,,,æˆäº¤é‡,æŠ€æœ¯
-EPS_YOY,wsd,wgsd_yoyeps_basic,,,Y,,åŸºæœ¬æ¯è‚¡æ”¶ç›Šï¼ˆåŒæ¯”å¢žé•¿çŽ‡ï¼‰,æˆé•¿
-PE_LYR,wsd,pe_lyr,,,,,å¸‚ç›ˆçŽ‡PE(LYR),ä¼°å€¼
-PE_TTM,wsd,pe_ttm,,,,,å¸‚ç›ˆçŽ‡PE(TTM),ä¼°å€¼
-SW_C1,wsd,indexcode_sw,,,,,è‚¡ç¥¨æ‰€å±žç”³ä¸‡ä¸€çº§è¡Œä¸šä»£ç ,åŸºæœ¬ä¿¡æ¯
-SW_C2,wsd,indexcode_sw,,,,,è‚¡ç¥¨æ‰€å±žç”³ä¸‡äºŒçº§è¡Œä¸šä»£ç ,åŸºæœ¬ä¿¡æ¯
-SW_NAME_C1,wsd,industry_sw,,,,,è‚¡ç¥¨æ‰€å±žç”³ä¸‡ä¸€çº§è¡Œä¸šåç§°,åŸºæœ¬ä¿¡æ¯
-SW_NAME_C2,wsd,industry_sw,,,,,è‚¡ç¥¨æ‰€å±žç”³ä¸‡äºŒçº§è¡Œä¸šåç§°,åŸºæœ¬ä¿¡æ¯
-INDUSTRY_WEIGHT_C1,wset,,,,,,ç”³ä¸‡ä¸€çº§è¡Œä¸šæ‰€å æŒ‡æ•°æƒé‡,åŸºæœ¬ä¿¡æ¯
-INDUSTRY_WEIGHT_C2,wset,,,,,,ç”³ä¸‡äºŒçº§è¡Œä¸šæ‰€å æŒ‡æ•°æƒé‡,åŸºæœ¬ä¿¡æ¯
+MV,wsd,mkt_cap_ard,F,100000000,,,×ÜÊÐÖµ£¨¸ö¹Éµ±ÈÕ¹É¼Û*µ±ÈÕ×Ü¹É±¾£©,¹æÄ£
+PB,wsd,pb_lf,F,,,,ÊÐ¾»ÂÊPB£¨LF£©,¼ÛÖµ
+STDQ,wsd,free_turn,,,,,»»ÊÖÂÊ£¨»ù×¼ ×ÔÓÉÁ÷Í¨¹É±¾£©,Á÷¶¯ÐÔ
+EquityGrowth_YoY,wsd,yoy_equity,,,,,¾»×Ê²ú£¨Í¬±ÈÔö³¤ÂÊ£©,³É³¤
+ROE,wsd,roe_avg,,,,,¾»×Ê²úÊÕÒæÂÊ£¨Æ½¾ù£©,Ó¯Àû
+ProfitGrowth_Qr_YoY,wsd,qfa_yoyprofit,,,,,µ¥¼¾¶È ¾»ÀûÈóÍ¬±ÈÔö³¤ÂÊ,Ó¯Àû
+RETURN,wsd,pct_chg,,,,,ÕÇµø·ù,¹ÀÖµ
+GrossProfit,wsd,grossmargin,,100000000,,,Ã«Àû,Ó¯Àû
+EP,wsd,deductedprofit_ttm,,100000000,,,¿Û³ý·Ç¾­³£ÐÔËðÒæºóµÄ¾»ÀûÈó£¨TTM£©,Ó¯Àû
+SP,wsd,gr_ttm,,100000000,,,ÓªÒµ×ÜÊÕÈë£¨TTM£©,Ó¯Àû
+OHLCV_DAY,wsd,"open,high,low,close,volume",F,,,Y,¿ªÅÌ¼Û¡¢×î¸ß¼Û¡¢×îµÍ¼Û¡¢ÊÕÅÌ¼Û¡¢³É½»Á¿(ÈÕÆµÊý¾Ý),¼¼Êõ
+OHLCV_MIN,wsi,"open,high,low,close,volume",F,,,Y,¿ªÅÌ¼Û¡¢×î¸ß¼Û¡¢×îµÍ¼Û¡¢ÊÕÅÌ¼Û¡¢³É½»Á¿(·ÖÖÓÆµÊý¾Ý),¼¼Êõ
+OPEN,wsd,open,F,,,,¿ªÅÌ¼Û,¼¼Êõ
+HIGH,wsd,high,F,,,,×î¸ß¼Û,¼¼Êõ
+LOW,wsd,low,F,,,,×îµÍ¼Û,¼¼Êõ
+CLOSE,wsd,close,F,,,,ÊÕÅÌ¼Û,¼¼Êõ
+VOLUME,wsd,volume,F,,,,³É½»Á¿,¼¼Êõ
+EPS_YOY,wsd,wgsd_yoyeps_basic,,,Y,,»ù±¾Ã¿¹ÉÊÕÒæ£¨Í¬±ÈÔö³¤ÂÊ£©,³É³¤
+PE_LYR,wsd,pe_lyr,,,,,ÊÐÓ¯ÂÊPE(LYR),¹ÀÖµ
+PE_TTM,wsd,pe_ttm,,,,,ÊÐÓ¯ÂÊPE(TTM),¹ÀÖµ
+SW_C1,wsd,indexcode_sw,,,,,¹ÉÆ±ËùÊôÉêÍòÒ»¼¶ÐÐÒµ´úÂë,»ù±¾ÐÅÏ¢
+SW_C2,wsd,indexcode_sw,,,,,¹ÉÆ±ËùÊôÉêÍò¶þ¼¶ÐÐÒµ´úÂë,»ù±¾ÐÅÏ¢
+SW_NAME_C1,wsd,industry_sw,,,,,¹ÉÆ±ËùÊôÉêÍòÒ»¼¶ÐÐÒµÃû³Æ,»ù±¾ÐÅÏ¢
+SW_NAME_C2,wsd,industry_sw,,,,,¹ÉÆ±ËùÊôÉêÍò¶þ¼¶ÐÐÒµÃû³Æ,»ù±¾ÐÅÏ¢
+INDUSTRY_WEIGHT_C1,wset,,,,,,ÉêÍòÒ»¼¶ÐÐÒµËùÕ¼Ö¸ÊýÈ¨ÖØ,»ù±¾ÐÅÏ¢
+INDUSTRY_WEIGHT_C2,wset,,,,,,ÉêÍò¶þ¼¶ÐÐÒµËùÕ¼Ö¸ÊýÈ¨ÖØ,»ù±¾ÐÅÏ¢
