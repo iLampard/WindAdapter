@@ -4,3 +4,4 @@ pandas>=0.18.0
 logbook
 argcheck
 python-decouple>=3.0
+finance-python

@@ -1,5 +1,9 @@
 # -*- coding: utf-8 -*-
+
 import pandas as pd
+from PyFin.DateUtilities import (Calendar,
+                                 Date,
+                                 Period)
 
 try:
     from WindPy import w
@@ -58,11 +62,15 @@ class WindDataProvider:
             pass
 
     @staticmethod
-    def advance_date(date, unit, freq):
+    def advance_date(date, tenor):
         try:
-            ret = w.tdaysoffset(int(unit) * -1, date, 'period=' + freq)
+            # use pyfin instead to get more accurate and flexible date math
+            start_date = Date.strptime(date)
+            sseCal = Calendar('China.SSE')
+            ret = sseCal.advanceDate(start_date, Period('-' + tenor))
+            # ret = w.tdaysoffset(int(unit) * -1, date, 'period=' + freq)
             WindDataProvider.force_throw_err(ret, 'WindDataProvider.advance_date')
-            return ret.Data[0][0]
+            return ret
         except NameError:
             pass
 

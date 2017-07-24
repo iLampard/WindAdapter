@@ -38,18 +38,18 @@ class FactorLoader:
     @staticmethod
     def _merge_query_params(params, date=None):
         ret = ''
-        for index, value in params.iteritems():
+        for key, value in params.iteritems():
             if not pd.isnull(value):
-                if index == Header.TENOR:
+                if key == Header.TENOR:
                     py_assert(date is not None, ValueError, 'date must given if tenor is not None')
-                    unit = ''.join(re.findall('[0-9]+', params[Header.TENOR]))
-                    freq = FreqType(params[Header.TENOR][len(unit):])
-                    ret += 'startDate=' + WIND_DATA_PROVIDER.advance_date(date, unit, freq).strftime(
+                    # unit = ''.join(re.findall('[0-9]+', params[Header.TENOR]))
+                    # freq = FreqType(params[Header.TENOR][len(unit):])
+                    ret += 'startDate=' + WIND_DATA_PROVIDER.advance_date(date, value).strftime(
                         '%Y%m%d') + ';endDate=' + date + ';'
-                elif index == Header.FREQ and value[:3] == 'min':
+                elif key == Header.FREQ and value[:3] == 'min':
                     ret += ('BarSize=' + value[3:] + ';')
                 else:
-                    ret += (index + '=' + str(value) + ';')
+                    ret += (key + '=' + str(value) + ';')
         ret = ret[:-1] + FactorLoader._check_industry_params(params.name)
         return ret
 
