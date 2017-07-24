@@ -1,5 +1,5 @@
 name,api,indicator,priceadj,unit,reportadj,multifactors,explanation,type
-MV,wsd,mkt_cap,F,100000000,,,总市值（不可回测）,规模
+MV,wsd,mkt_cap_CSRC,F,100000000,,,总市值（证监会算法）,规模
 PB,wsd,pb_lf,F,,,,市净率PB（LF）,价值
 STDQ,wsd,free_turn,,,,,换手率（基准 自由流通股本）,流动性
 EquityGrowth_YoY,wsd,yoy_equity,,,,,净资产（同比增长率）,成长
