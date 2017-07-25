@@ -12,8 +12,8 @@ install:
       pip install enum34;
     fi
   - pip install IPython
-  - pip install --use-wheel finance-python
   - pip install cython
+  - pip install --use-wheel finance-python
 # command to run tests
 script:
   - coverage run WindAdapter/test_api.py
