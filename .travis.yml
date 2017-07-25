@@ -13,6 +13,7 @@ install:
     fi
   - pip install IPython
   - pip install --use-wheel finance-python
+  - pip install cython
 # command to run tests
 script:
   - coverage run WindAdapter/test_api.py
