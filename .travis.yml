@@ -26,6 +26,7 @@ install:
   - conda install pandas
   - conda install toolz
   - conda install cython
+  - pip install mock
   - pip install argcheck
   - pip install --use-wheel finance-python
   - pip install coveralls
