@@ -27,6 +27,7 @@ class FactorLoader:
         self.tenor = kwargs.get('tenor', None)
         self.output_data_format = kwargs.get('output_data_format', OutputFormat.MULTI_INDEX_DF)
         self.is_index = kwargs.get('is_index', True)
+        self.date_format = kwargs.get('date_format', '%Y-%m-%d')
 
     @staticmethod
     def _check_industry_params(factor_name):
@@ -35,8 +36,7 @@ class FactorLoader:
         else:
             return ''
 
-    @staticmethod
-    def _merge_query_params(params, date=None):
+    def _merge_query_params(self, params, date=None):
         ret = ''
         for key, value in params.iteritems():
             if not pd.isnull(value):
@@ -44,8 +44,8 @@ class FactorLoader:
                     py_assert(date is not None, ValueError, 'date must given if tenor is not None')
                     # unit = ''.join(re.findall('[0-9]+', params[Header.TENOR]))
                     # freq = FreqType(params[Header.TENOR][len(unit):])
-                    ret += 'startDate=' + WIND_DATA_PROVIDER.advance_date(date, value).strftime(
-                        '%Y%m%d') + ';endDate=' + date + ';'
+                    ret += 'startDate=' + WIND_DATA_PROVIDER.forward_date(date, value,
+                                                                          self.date_format) + ';endDate=' + date + ';'
                 elif key == Header.FREQ and value[:3] == 'min':
                     ret += ('BarSize=' + value[3:] + ';')
                 else:

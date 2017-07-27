@@ -64,7 +64,7 @@ class TestApi(unittest.TestCase):
 
     @patch('WindAdapter.data_provider.WindDataProvider.query_data')
     @patch('WindAdapter.data_provider.WindDataProvider.biz_days_list')
-    @patch('WindAdapter.data_provider.WindDataProvider.advance_date')
+    @patch('WindAdapter.data_provider.WindDataProvider.forward_date')
     def testFactorLoad_case2(self, mock_adv_date, mock_days_list, mock_query_data):
         from WindAdapter.enums import OutputFormat
         start_date = '2016-01-01'
@@ -79,13 +79,13 @@ class TestApi(unittest.TestCase):
                                  times=[datetime(2016, 1, 1)])
         mock_query_data.return_value = mock_data
         mock_days_list.return_value = [datetime(2016, 1, 1), datetime(2016, 2, 1)]
-        mock_adv_date.return_value = datetime(2015, 9, 1)
+        mock_adv_date.return_value = '2015-09-01'
 
         calculated = factor_load(start_date=start_date,
                                  end_date=end_date,
                                  factor_name=factor_name,
                                  sec_id=sec_id,
-                                 tenor='1Q',
+                                 tenor='3M',
                                  output_data_format=OutputFormat.MULTI_INDEX_DF,
                                  is_index=False)
         expected = pd.DataFrame(data=[1, 2, 3, 4, 1, 2, 3, 4],
@@ -100,7 +100,7 @@ class TestApi(unittest.TestCase):
                                  end_date=end_date,
                                  factor_name=factor_name,
                                  sec_id=sec_id,
-                                 tenor='1Q',
+                                 tenor='3M',
                                  output_data_format=OutputFormat.PITVOT_TABLE_DF,
                                  is_index=False)
         expected = pd.DataFrame(data=[[1, 2, 3, 4], [1, 2, 3, 4]],

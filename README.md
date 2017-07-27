@@ -77,6 +77,7 @@ from WindAdapter import factor_load
                             PITVOT_TABLE_DF: DataFrame, index=date, columns = secID
         is_index: bool, optional, True: 输入的sec_id是指数，实际需要读取的是该指数成分股的因子数据，
                                   False: 直接读取sec_id的因子数据
+        date_format: str, optional, 日期的格式， 默认'%Y-%m-%d'
 :return: pd.DataFrame 整理好的因子数据
 """
 
@@ -86,10 +87,13 @@ factor_load('2014-01-01', '2014-07-10', 'PB', sec_id=['000001.SZ', '000002.SZ'],
 # 读取全市场 2016年1月的每日收盘价，并保存成pickle格式
 factor_load('2014-01-01', '2014-07-10', 'close', sec_id='fullA', is_index=True, freq='D', save_file='close.pkl')
 
-# 读取沪深300成分股从2014年1月至3月，频率为每月(freq=M)收益， 并保存成csv格式
-factor_load('2014-01-01', '2014-03-31', 'return', sec_id='000300.SH', is_index=True, freq='M', save_file='HS300_return_1Q.csv')
+# 读取沪深300成分股从2014年1月至3月，频率为每月(freq=M)的季度(tenor='3M')收益， 并保存成csv格式
+factor_load('2014-01-01', '2014-03-31', 'return', sec_id='000300.SH', is_index=True, freq='M', tenor='3M', save_file='HS300_return_1Q.csv')```
 ```
-*Note*: 返回的数据最近的日期等于入参中的end_date，前推的日期为根据频率(freq)和end_date往前推算的交易日
+
+*Note 1*: 返回的数据最近的日期等于入参中的end_date，前推的日期为根据频率(freq)和end_date往前推算的交易日
+
+*Note 2*: tenor取值需要符合Finance-Python包的要求，具体请参加其[单元测试](https://github.com/wegamekinglc/Finance-Python/tree/master/PyFin/tests/DateUtilities)中所举的例子
 
 另外，指数成分股权重也是作为因子，从*factor_loader*读取
 
@@ -123,7 +127,7 @@ factor_load('2014-01-01', '2014-03-31', 'INDUSTRY_WEIGHT_C1', sec_id='000300.SH'
             ...
 ```
 
-factor_load还可以接受lsit of factor names 进行数据读取
+factor_load还可以接受list of factor names 进行数据读取
 
 ``` python
 factor_load('2014-01-01', '2014-07-10', ['PB', 'MV'], sec_id=['000001.SZ', '000002.SZ'], is_index=False,reset_col_names=True)

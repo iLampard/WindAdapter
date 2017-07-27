@@ -74,6 +74,7 @@ def factor_load(start_date, end_date, factor_name, save_file=None, **kwargs):
                                 PITVOT_TABLE_DF: DataFrame, index=date, columns = secID
             is_index: bool, optional, True: 输入的sec_id是指数，实际需要读取的是该指数成分股的因子数据，
                                       False: 直接读取sec_id的因子数据
+            date_format: str, optional, 日期的格式， 默认'%Y-%m-%d'
     :return: pd.DataFrame 整理好的因子数据
     """
     if isinstance(factor_name, list):
@@ -118,5 +119,7 @@ def factor_details_help():
     data_dict = WIND_QUERY_HELPER.data_dict
     print_table(data_dict, name='Data_Dict')
     return
+
+
 
 
