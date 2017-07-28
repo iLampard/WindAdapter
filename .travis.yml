@@ -32,6 +32,6 @@ install:
   - pip install coveralls
 # command to run tests
 script:
-  - coverage run WindAdapter/test_api.py
+  - coverage run WindAdapter/tests/test_suite.py
 after_success:
   - coveralls

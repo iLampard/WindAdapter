@@ -8,10 +8,6 @@ try:
 except ImportError:
     from mock import patch
 from pandas.util.testing import assert_frame_equal
-import os
-import sys
-thisFilePath = os.path.abspath(__file__)
-sys.path.append(os.path.sep.join(thisFilePath.split(os.path.sep)[:-3]))
 from WindAdapter.api import factor_load
 
 
