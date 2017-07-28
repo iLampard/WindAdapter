@@ -5,3 +5,4 @@ logbook
 argcheck
 python-decouple>=3.0
 finance-python
+toolz
