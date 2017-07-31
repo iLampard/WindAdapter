@@ -23,6 +23,8 @@ install:
   - conda install coverage
   - conda install numpy
   - conda install scipy
+  - pip install --upgrade pip
+  - pip install IPython
   - conda install pandas
   - conda install toolz
   - conda install cython
