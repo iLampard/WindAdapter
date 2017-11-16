@@ -57,6 +57,17 @@ def get_universe(index_id, date=None, output_weight=False):
 
 
 @handle_wind_query_exception(LOGGER)
+def get_live(sec_id, block_size=400):
+    factor = FactorLoader(start_date=None,
+                          end_date=None,
+                          factor_name='LIVE',
+                          sec_id=sec_id,
+                          block_size=block_size)
+    ret = factor.load_data()
+    return ret
+
+
+@handle_wind_query_exception(LOGGER)
 @expect_types(factor_name=(str, list))
 def factor_load(start_date, end_date, factor_name, save_file=None, **kwargs):
     """
@@ -119,7 +130,4 @@ def factor_details_help():
     data_dict = WIND_QUERY_HELPER.data_dict
     print_table(data_dict, name='Data_Dict')
     return
-
-
-
 

@@ -28,6 +28,7 @@ class FactorLoader:
         self.output_data_format = kwargs.get('output_data_format', OutputFormat.MULTI_INDEX_DF)
         self.is_index = kwargs.get('is_index', True)
         self.date_format = kwargs.get('date_format', '%Y-%m-%d')
+        self.block_size = kwargs.get('block_size', 400)
 
     @staticmethod
     def _check_industry_params(factor_name):
@@ -76,7 +77,16 @@ class FactorLoader:
         output_data = pd.DataFrame()
         api = main_params[Header.API]
 
-        if api == 'w.wsi':
+        if api == 'w.wsq':
+            loop_times = int(len(self.sec_id) / self.block_size) + 1
+            for j in range(loop_times):
+                code_set = self.sec_id[j * self.block_size: (j + 1) * self.block_size]
+                raw_data = WIND_DATA_PROVIDER.query_data(api=api,
+                                                         sec_id=code_set,
+                                                         indicator=main_params[Header.INDICATOR])
+                output_data = pd.concat([output_data, pd.DataFrame(raw_data.Data).T], axis=0)
+            output_data.columns = ['open', 'high', 'low', 'last', 'vol', 'amt', 'vol_ratio', 'pct_chg_5min']
+        elif api == 'w.wsi':
             merged_extra_params = self._merge_query_params(extra_params, date=self.end_date)
             raw_data = WIND_DATA_PROVIDER.query_data(api=api,
                                                      sec_id=self.sec_id,
@@ -170,3 +180,5 @@ class FactorLoader:
                 if self.output_data_format == OutputFormat.MULTI_INDEX_DF else tmp
             ret = ret.append(tmp)
         return ret
+
+

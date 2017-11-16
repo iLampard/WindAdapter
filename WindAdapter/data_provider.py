@@ -84,13 +84,15 @@ class WindDataProvider:
             pass
 
     @staticmethod
-    def query_data(api, sec_id, indicator, extra_params, start_date=None, end_date=None):
+    def query_data(api, sec_id, indicator, extra_params=None, start_date=None, end_date=None):
         if api == 'w.wsd':
             ret = eval(api)(sec_id, indicator, start_date, end_date, extra_params)
         elif api == 'w.wss':
             ret = eval(api)(sec_id, indicator, extra_params)
         elif api == 'w.wsi':
             ret = eval(api)(sec_id, indicator, start_date, end_date, extra_params)
+        elif api == 'w.wsq':
+            ret = eval(api)(sec_id, indicator)
         else:
             raise ValueError('WindDataProvider.query_data: unknown type of api')
 
