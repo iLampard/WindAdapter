@@ -46,18 +46,20 @@ class WindDataProvider:
         try:
             if index_id == 'fulla':
                 code = 'a001010100000000'
+                raw_data_index = 0
                 params = 'sectorid=' + code + ';field=wind_code' if date is None \
                     else 'date=' + str(date) + ';sectorid=' + code
                 raw_data = w.wset('sectorconstituent', params)
             else:
+                raw_data_index = 1
                 short_params = 'windcode=' + index_id
                 params = short_params if date is None else short_params + ';date=' + str(date)
                 raw_data = w.wset('IndexConstituent', params)
             WindDataProvider.force_throw_err(raw_data, 'WindDataProvider.get_universe')
             if output_weight:
-                return pd.DataFrame(data=raw_data.Data[3], index=raw_data.Data[1], columns=['weight'])
+                return pd.DataFrame(data=raw_data.Data[raw_data_index], index=raw_data.Codes, columns=['weight'])
             else:
-                return raw_data.Data[1]
+                return raw_data.Data[raw_data_index]
         except NameError:
             pass
 
