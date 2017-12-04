@@ -23,7 +23,7 @@ class FreqType(StrEnum):
 
 class OutputFormat(IntEnum):
     MULTI_INDEX_DF = 0
-    PITVOT_TABLE_DF = 1
+    PIVOT_TABLE_DF = 1
 
 
 class Header(StrEnum):

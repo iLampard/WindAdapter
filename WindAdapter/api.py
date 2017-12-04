@@ -82,7 +82,7 @@ def factor_load(start_date, end_date, factor_name, save_file=None, **kwargs):
             sec_id, str/list, optional, 股票代码或者是指数代码
             output_data_format: enum, optional, 参见enums.py - FreqType
                                 MULTI_INDEX_DF: multi-index DataFrame, index=[date, secID], value = factor
-                                PITVOT_TABLE_DF: DataFrame, index=date, columns = secID
+                                PIVOT_TABLE_DF: DataFrame, index=date, columns = secID
             is_index: bool, optional, True: 输入的sec_id是指数，实际需要读取的是该指数成分股的因子数据，
                                       False: 直接读取sec_id的因子数据
             date_format: str, optional, 日期的格式， 默认'%Y-%m-%d'
@@ -130,5 +130,3 @@ def factor_details_help():
     data_dict = WIND_QUERY_HELPER.data_dict
     print_table(data_dict, name='Data_Dict')
     return
-
-

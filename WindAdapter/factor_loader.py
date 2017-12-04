@@ -69,7 +69,7 @@ class FactorLoader:
         elif isinstance(self.sec_id, list):
             sec_id = self.sec_id
         else:
-            raise TypeError('FactorLoader._get_sec_id: sec_id must be either list of string')
+            raise TypeError('FactorLoader._get_sec_id: sec_id must be either list or string')
 
         return sec_id
 
@@ -180,5 +180,3 @@ class FactorLoader:
                 if self.output_data_format == OutputFormat.MULTI_INDEX_DF else tmp
             ret = ret.append(tmp)
         return ret
-
-
