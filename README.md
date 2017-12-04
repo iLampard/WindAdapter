@@ -74,7 +74,7 @@ from WindAdapter import factor_load
         sec_id, str/list, optional, 股票代码或者是指数代码
         output_data_format: enum, optional, 参见enums.py - FreqType
                             MULTI_INDEX_DF: multi-index DataFrame, index=[date, secID], value = factor
-                            PITVOT_TABLE_DF: DataFrame, index=date, columns = secID
+                            PIVOT_TABLE_DF: DataFrame, index=date, columns = secID
         is_index: bool, optional, True: 输入的sec_id是指数，实际需要读取的是该指数成分股的因子数据，
                                   False: 直接读取sec_id的因子数据
         date_format: str, optional, 日期的格式， 默认'%Y-%m-%d'
@@ -93,12 +93,12 @@ factor_load('2014-01-01', '2014-03-31', 'return', sec_id='000300.SH', is_index=T
 
 *Note 1*: 返回的数据最近的日期等于入参中的end_date，前推的日期为根据频率(freq)和end_date往前推算的交易日
 
-*Note 2*: tenor取值需要符合Finance-Python包的要求，具体请参加其[单元测试](https://github.com/wegamekinglc/Finance-Python/tree/master/PyFin/tests/DateUtilities)中所举的例子
+*Note 2*: tenor取值需要符合Finance-Python包的要求，具体请参照其[单元测试](https://github.com/wegamekinglc/Finance-Python/tree/master/PyFin/tests/DateUtilities)中所举的例子
 
 另外，指数成分股权重也是作为因子，从*factor_loader*读取
 
 ``` python
-# 读书指数成分股行业权重: 沪深300的申万一级行业权重分布
+# 读取指数成分股行业权重: 沪深300的申万一级行业权重分布
 # 由于申万一级行业于2014年2月进行了调整，而wind的行业代码不可回溯，故2014年2月前的指数成分股权重之和不等于1
 factor_load('2014-01-01', '2014-03-31', 'INDUSTRY_WEIGHT_C1', sec_id='000300.SH')
 

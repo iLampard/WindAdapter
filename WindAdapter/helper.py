@@ -65,7 +65,7 @@ class WindQueryHelper:
         return df
 
     @staticmethod
-    def reformat_wind_data(raw_data, date, output_data_format=OutputFormat.PITVOT_TABLE_DF, multi_factors=False):
+    def reformat_wind_data(raw_data, date, output_data_format=OutputFormat.PIVOT_TABLE_DF, multi_factors=False):
         if not multi_factors:
             ret = pd.DataFrame(data=raw_data.Data,
                                columns=raw_data.Codes,

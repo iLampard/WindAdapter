@@ -1,14 +1,18 @@
 # -*- coding: utf-8 -*-
 
 import unittest
+import mock
 from datetime import datetime
 import pandas as pd
+
 try:
     from unittest.mock import patch
 except ImportError:
     from mock import patch
 from pandas.util.testing import assert_frame_equal
-from WindAdapter.api import factor_load
+from WindAdapter.api import (factor_load,
+                             get_universe)
+from WindAdapter.data_provider import WindDataProvider
 
 
 class MockWindData(object):
@@ -22,7 +26,7 @@ class MockWindData(object):
 
 class TestApi(unittest.TestCase):
     @patch('WindAdapter.data_provider.WindDataProvider.query_data')
-    def testFactorLoad_case1(self, mock_query_data):
+    def test_factor_load_case1(self, mock_query_data):
         from WindAdapter.enums import OutputFormat
         start_date = '2016-01-01'
         end_date = '2016-02-01'
@@ -55,7 +59,7 @@ class TestApi(unittest.TestCase):
                                  end_date=end_date,
                                  factor_name=factor_name,
                                  sec_id=sec_id,
-                                 output_data_format=OutputFormat.PITVOT_TABLE_DF,
+                                 output_data_format=OutputFormat.PIVOT_TABLE_DF,
                                  is_index=False)
         expected = pd.DataFrame(data=[[1, 3, 5], [1, 3, 5]],
                                 columns=['000001.SZ', '000002.SZ', '000003.SZ'],
@@ -65,7 +69,7 @@ class TestApi(unittest.TestCase):
     @patch('WindAdapter.data_provider.WindDataProvider.query_data')
     @patch('WindAdapter.data_provider.WindDataProvider.biz_days_list')
     @patch('WindAdapter.data_provider.WindDataProvider.forward_date')
-    def testFactorLoad_case2(self, mock_adv_date, mock_days_list, mock_query_data):
+    def test_factor_load_case2(self, mock_adv_date, mock_days_list, mock_query_data):
         from WindAdapter.enums import OutputFormat
         start_date = '2016-01-01'
         end_date = '2016-02-01'
@@ -101,9 +105,46 @@ class TestApi(unittest.TestCase):
                                  factor_name=factor_name,
                                  sec_id=sec_id,
                                  tenor='3M',
-                                 output_data_format=OutputFormat.PITVOT_TABLE_DF,
+                                 output_data_format=OutputFormat.PIVOT_TABLE_DF,
                                  is_index=False)
         expected = pd.DataFrame(data=[[1, 2, 3, 4], [1, 2, 3, 4]],
                                 index=['2016-01-01', '2016-02-01'],
                                 columns=['000001.SZ', '000002.SZ', '000003.SZ', '000004.SZ'])
         assert_frame_equal(calculated, expected)
+
+    def test_forward_date(self):
+        # WIND_DATA_PROVIDER = WindDataProvider()
+        ref_date = '2017-12-04'
+        tenor = ['1b', '2d', '3w', '4m', '5y']
+        expected = ['2017-12-04', '2017-12-05', '2017-11-14', '2017-08-07', '2012-12-05']
+        # WindDataProvider.forward_date = mock.Mock(return_value=ret_value)
+        # result = WindDataProvider.forward_date(ref_date, tenor)
+        calculated = [WindDataProvider.forward_date(ref_date, tenor[i]) for i in range(len(tenor))]
+        self.assertEqual(calculated, expected)
+
+        ref_date = '20170101'
+        tenor = ['1b', '2d', '3w', '4m', '5y']
+        expected = ['2017-01-03', '2017-01-03', '2016-12-13', '2016-09-02', '2012-01-05']
+        calculated = [WindDataProvider.forward_date(ref_date, tenor[i], date_format='%Y%m%d') for i in
+                      range(len(tenor))]
+        self.assertEqual(calculated, expected)
+
+    @patch('WindAdapter.data_provider.WindDataProvider.get_universe')
+    def test_get_universe(self, mock_get_universe):
+        index_id = 'fullA'
+        mock_get_universe.return_value = ['000001.SZ', '000002.SZ', '000003.SZ', 'other codes of fullA']
+        expected = ['000001.SZ', '000002.SZ', '000003.SZ', 'other codes of fullA']
+        calculated = get_universe(index_id)
+        self.assertEqual(calculated, expected)
+
+        index_id = '000905.SH'
+        mock_get_universe.return_value = pd.DataFrame(data=[0.228, 0.238, 0.164],
+                                                      index=['000006.SZ', '000012.SZ', '000021.SZ'],
+                                                      columns=['weight'])
+        expected = pd.DataFrame(data=[0.228, 0.238, 0.164],
+                                index=['000006.SZ', '000012.SZ', '000021.SZ'],
+                                columns=['weight'])
+        calculated = get_universe(index_id, '2017-12-04', True)
+        assert_frame_equal(calculated, expected)
+
+

@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 import pandas as pd
-from PyFin.DateUtilities import (Calendar,
-                                 Date,
-                                 Period)
+from xutils import (Calendar,
+                    Date,
+                    Period)
 
 try:
     from WindPy import w
@@ -36,7 +36,7 @@ class WindDataProvider:
     @staticmethod
     def force_throw_err(raw_data, func_name):
         if raw_data.ErrorCode != 0:
-            raise ValueError('{0}: {1}'.format(raw_data.Data[0], func_name))
+            raise ValueError('{0}: {1}'.format(raw_data.Data[0], func_name)) #??????????
         elif len(raw_data.Data) == 0:
             raise ValueError('{0}: empty data returned'.format(func_name))
 
@@ -46,20 +46,20 @@ class WindDataProvider:
         try:
             if index_id == 'fulla':
                 code = 'a001010100000000'
-                raw_data_index = 0
                 params = 'sectorid=' + code + ';field=wind_code' if date is None \
                     else 'date=' + str(date) + ';sectorid=' + code
                 raw_data = w.wset('sectorconstituent', params)
             else:
-                raw_data_index = 1
                 short_params = 'windcode=' + index_id
                 params = short_params if date is None else short_params + ';date=' + str(date)
                 raw_data = w.wset('IndexConstituent', params)
             WindDataProvider.force_throw_err(raw_data, 'WindDataProvider.get_universe')
             if output_weight:
-                return pd.DataFrame(data=raw_data.Data[raw_data_index], index=raw_data.Codes, columns=['weight'])
+                return pd.DataFrame(data=raw_data.Data[raw_data.Fields.index('i_weight')],
+                                    index=raw_data.Data[raw_data.Fields.index('wind_code')],
+                                    columns=['weight'])
             else:
-                return raw_data.Data[raw_data_index]
+                return raw_data.Data[raw_data.Fields.index('wind_code')]
         except NameError:
             pass
 
