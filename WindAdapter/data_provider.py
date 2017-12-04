@@ -36,7 +36,7 @@ class WindDataProvider:
     @staticmethod
     def force_throw_err(raw_data, func_name):
         if raw_data.ErrorCode != 0:
-            raise ValueError('{0}: {1}'.format(raw_data.Data[0], func_name)) #??????????
+            raise ValueError('{0}: {1}'.format(raw_data.Data[0], func_name))
         elif len(raw_data.Data) == 0:
             raise ValueError('{0}: empty data returned'.format(func_name))
 
