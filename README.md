@@ -93,7 +93,7 @@ factor_load('2014-01-01', '2014-03-31', 'return', sec_id='000300.SH', is_index=T
 
 *Note 1*: 返回的数据最近的日期等于入参中的end_date，前推的日期为根据频率(freq)和end_date往前推算的交易日
 
-*Note 2*: tenor取值需要符合Finance-Python包的要求，具体请参照其[单元测试](https://github.com/wegamekinglc/Finance-Python/tree/master/PyFin/tests/DateUtilities)中所举的例子
+*Note 2*: tenor取值需要符合x-utils包的要求，具体请参照其[帮助](https://github.com/iLampard/x-utils)中所举的例子
 
 另外，指数成分股权重也是作为因子，从*factor_loader*读取
 
@@ -144,6 +144,7 @@ numpy
 pandas
 python-decouple
 WindPy
+x-utils
 ```
 
 ## 安装
