@@ -69,8 +69,8 @@ from WindAdapter import factor_load
 :param save_file: str, optional, 保存数据的文件名，可写成 '*.csv' 或者 '*.pkl'
 :param kwargs: dict, optional
 
-        freq: str, optional, 因子数据的频率， 可选'M', 'W', 'Q', 'S', 'Y'， 参见enums.py - FreqType
-        tenor: str, optional, 因子数据的周期， 对于截面数据（如换手率，收益率），需要给定数据区间(向前)， 可选数字+FreqType， 如'1Q'
+        freq: str, optional, 因子数据的频率， 可选'M', 'W', 'S', 'Y'， 参见enums.py - FreqType
+        tenor: str, optional, 因子数据的周期， 对于截面数据（如换手率，收益率），需要给定数据区间(向前)， 可选数字+FreqType， 如'3M'
         sec_id, str/list, optional, 股票代码或者是指数代码
         output_data_format: enum, optional, 参见enums.py - FreqType
                             MULTI_INDEX_DF: multi-index DataFrame, index=[date, secID], value = factor

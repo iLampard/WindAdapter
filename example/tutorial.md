@@ -15,8 +15,8 @@ from WindAdapter import factor_load
 :param save_file: str, optional, 保存数据的文件名，可写成 '*.csv' 或者 '*.pkl'
 :param kwargs: dict, optional
 
-        freq: str, optional, 因子数据的频率， 可选'M', 'W', 'Q', 'S', 'Y'， 参见enums.py - FreqType
-        tenor: str, optional, 因子数据的周期， 对于截面数据（如换手率，收益率），需要给定数据区间(向前)， 可选数字+FreqType， 如'1Q'
+        freq: str, optional, 因子数据的频率， 可选'M', 'W', 'S', 'Y'， 参见enums.py - FreqType
+        tenor: str, optional, 因子数据的周期， 对于截面数据（如换手率，收益率），需要给定数据区间(向前)， 可选数字+FreqType， 如'3M'
         sec_id, str/list, optional, 股票代码或者是指数代码
         output_data_format: enum, optional, 参见enums.py - FreqType
                             MULTI_INDEX_DF: multi-index DataFrame, index=[date, secID], value = factor
@@ -32,8 +32,8 @@ factor_load('2014-01-01', '2014-07-10', 'PB', sec_id=['000001.SZ', '000002.SZ'],
 # 读取全市场 2016年1月的每日收盘价，并保存成pickle格式
 factor_load('2014-01-01', '2014-07-10', 'close', sec_id='fullA', is_index=True, freq='D', save_file='close.pkl')
 
-# 读取沪深300成分股从2014年1月至3月，频率为每月(freq=M)的季度(tenor='1Q')收益， 并保存成csv格式
-factor_load('2014-01-01', '2014-03-31', 'return', sec_id='000300.SH', is_index=True, freq='M', tenor='1Q', save_file='HS300_return_1Q.csv')
+# 读取沪深300成分股从2014年1月至3月，频率为每月(freq=M)的季度(tenor='3M')收益， 并保存成csv格式
+factor_load('2014-01-01', '2014-03-31', 'return', sec_id='000300.SH', is_index=True, freq='M', tenor='3M', save_file='HS300_return_1Q.csv')
 
 
 ```

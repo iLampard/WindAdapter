@@ -95,7 +95,8 @@ class FactorLoader:
                                                      start_date=self.start_date,
                                                      end_date=self.end_date)
             multi_factors = True if extra_params[Header.MULTIFACTORS] == 'Y' else False
-            output_data = WIND_QUERY_HELPER.reformat_wind_data(raw_data=raw_data, date=self.end_date,
+            output_data = WIND_QUERY_HELPER.reformat_wind_data(raw_data=raw_data,
+                                                               date=self.end_date,
                                                                multi_factors=multi_factors)
         else:
             dates = WIND_DATA_PROVIDER.biz_days_list(start_date=self.start_date,
@@ -164,15 +165,21 @@ class FactorLoader:
             date = date_convert_2_str(date)
             index_info = WIND_DATA_PROVIDER.get_universe(self.sec_id, date=date, output_weight=True)
             class_info = WIND_DATA_PROVIDER.query_data(api='w.wsd',
-                                                       sec_id=index_info[1],
+                                                       # sec_id=index_info[1],
+                                                       sec_id=index_info.index.tolist(),
                                                        indicator='indexcode_sw',
                                                        extra_params=extra_params,
                                                        start_date=date,
                                                        end_date=date)
-            industry_weight = pd.DataFrame(data={'sec_id': index_info[1],
+            # industry_weight = pd.DataFrame(data={'sec_id': index_info[1],
+            #                                      'class_id': class_info.Data[0],
+            #                                      'sec_weight': index_info[3]},
+            #                                index=index_info[0])
+
+            industry_weight = pd.DataFrame(data={'sec_id': index_info.index,
                                                  'class_id': class_info.Data[0],
-                                                 'sec_weight': index_info[3]},
-                                           index=index_info[0])
+                                                 'sec_weight': index_info['weight']},
+                                           index=index_info.index)
 
             tmp = industry_weight.groupby('class_id').sum().T
             tmp.index = [date]

@@ -16,7 +16,6 @@ class FreqType(StrEnum):
     EOD = 'D'
     EOW = 'W'
     EOM = 'M'
-    EOQ = 'Q'
     EOSY = 'S'
     EOY = 'Y'
 
