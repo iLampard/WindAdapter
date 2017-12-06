@@ -26,14 +26,12 @@ install:
   - conda install scipy
   - conda install pandas
   - conda install toolz
-  - conda install cython
-  - pip install --upgrade pip
   - pip install IPython
   - pip install logbook
   - pip install python-decouple
   - pip install mock
   - pip install argcheck
-  - pip install --use-wheel finance-python
+  - pip install x-utils
   - pip install coveralls
 # command to run tests
 script:
