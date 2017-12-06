@@ -66,12 +66,11 @@ class WindDataProvider:
     @staticmethod
     def forward_date(date, tenor, date_format='%Y-%m-%d'):
         try:
-            # use pyfin instead to get more accurate and flexible date math
             start_date = Date.strptime(date, date_format)
-            sseCal = Calendar('China.SSE')
-            ret = sseCal.advanceDate(start_date, Period('-' + tenor), endOfMonth=True)
+            sse_cal = Calendar('China.SSE')
+            ret = sse_cal.advanceDate(start_date, Period('-' + tenor), endOfMonth=True)
             # 此处返回的是上一期期末日期，再向后调整一天，以避免区间日期重叠
-            ret = sseCal.advanceDate(ret, Period('1b'))
+            ret = sse_cal.advanceDate(ret, Period('1b'))
             return str(ret)
         except NameError:
             pass

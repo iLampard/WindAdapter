@@ -183,19 +183,19 @@ class TestApi(unittest.TestCase):
         expected = pd.DataFrame(data=[[1, 2]], index=[date_str], columns=sec_id)
         assert_frame_equal(calculated, expected)
 
-        # raw_data = MockWindData(data=[['000001.SZ', '000002.SZ'], [1, 2], [3, 4], [5, 6], [7, 8]],
-        #                         codes=['MultiCodes'],
-        #                         error_code=0,
-        #                         fields=['code', 'open', 'high', 'low', 'close'],
-        #                         times=[datetime(2017, 1, 1),
-        #                                datetime(2017, 1, 1)])
-        # calculated = wind_query_helper.reformat_wind_data(raw_data, date, multi_factors=True)
-        # expected = pd.DataFrame(data=[['000001.SZ', 1, 3, 5, 7], ['000002.SZ', 2, 4, 6, 8]],
-        #                         index=pd.MultiIndex.from_product([[datetime(2017, 1, 1)], ['MultiCodes'] * 2],
-        #                                                          names=['date', 'secID']),
-        #                         columns=['code', 'open', 'high', 'low', 'close'])
-        # print calculated, expected
-        # assert_frame_equal(calculated, expected)
+        raw_data = MockWindData(data=[['000001.SZ', '000002.SZ'], [1, 2], [3, 4], [5, 6], [7, 8]],
+                                codes=['MultiCodes'],
+                                error_code=0,
+                                fields=['code', 'open', 'high', 'low', 'close'],
+                                times=[datetime(2017, 1, 1),
+                                       datetime(2017, 1, 1)])
+        calculated = wind_query_helper.reformat_wind_data(raw_data, date, multi_factors=True)
+        expected = pd.DataFrame(data=[['000001.SZ', 1, 3, 5, 7], ['000002.SZ', 2, 4, 6, 8]],
+                                index=pd.MultiIndex.from_product([[datetime(2017, 1, 1)], ['MultiCodes'] * 2],
+                                                                 names=['date', 'secID']),
+                                columns=['code', 'open', 'high', 'low', 'close'])
+        print calculated, expected
+        assert_frame_equal(calculated, expected)
 
     @patch('WindAdapter.data_provider.WindDataProvider.query_data')
     def test_retrieve_data(self, mock_query_data):
