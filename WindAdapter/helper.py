@@ -73,10 +73,15 @@ class WindQueryHelper:
             if output_data_format == OutputFormat.MULTI_INDEX_DF:
                 ret = WindQueryHelper.convert_2_multi_index(ret)
         else:
-            ret = pd.DataFrame(data=np.array(raw_data.Data).T,
-                               index=pd.MultiIndex.from_arrays([raw_data.Times, raw_data.Codes*len(raw_data.Times)],
-                                                               names=['date', 'secID']),
-                               columns=raw_data.Fields)
+            # ret = pd.DataFrame(data=np.array(raw_data.Data).T,
+            #                    index=pd.MultiIndex.from_arrays([raw_data.Times, raw_data.Codes*len(raw_data.Times)],
+            #                                                    names=['date', 'secID']),
+            #                    columns=raw_data.Fields)
+            ret = pd.DataFrame(data=np.array(raw_data.Data[2:]).T,
+                               index=pd.MultiIndex.from_arrays([raw_data.Data[raw_data.Fields.index('windcode')],
+                                                                raw_data.Times],
+                                                               names=['secID', 'date']),
+                               columns=[field for field in raw_data.Fields if field != 'time' and field != 'windcode'])
         return ret
 
     @staticmethod

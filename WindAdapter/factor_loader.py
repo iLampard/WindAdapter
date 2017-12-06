@@ -171,10 +171,6 @@ class FactorLoader:
                                                        extra_params=extra_params,
                                                        start_date=date,
                                                        end_date=date)
-            # industry_weight = pd.DataFrame(data={'sec_id': index_info[1],
-            #                                      'class_id': class_info.Data[0],
-            #                                      'sec_weight': index_info[3]},
-            #                                index=index_info[0])
 
             industry_weight = pd.DataFrame(data={'sec_id': index_info.index,
                                                  'class_id': class_info.Data[0],
