@@ -42,7 +42,7 @@ class FactorLoader:
         for key, value in params.iteritems():
             if not pd.isnull(value):
                 if key == Header.TENOR:
-                    py_assert(date is not None, ValueError, 'date must given if tenor is not None')
+                    py_assert(date is not None, ValueError, 'date must be given if tenor is not None')
                     # unit = ''.join(re.findall('[0-9]+', params[Header.TENOR]))
                     # freq = FreqType(params[Header.TENOR][len(unit):])
                     ret += 'startDate=' + WIND_DATA_PROVIDER.forward_date(date, value,
