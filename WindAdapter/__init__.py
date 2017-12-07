@@ -2,7 +2,7 @@
 
 
 from WindAdapter.api import get_universe
-# from WindAdapter.api import get_live
+from WindAdapter.api import get_live
 from WindAdapter.api import factor_load
 from WindAdapter.api import factor_help
 from WindAdapter.api import factor_details_help
@@ -22,4 +22,4 @@ def version():
     return __version__
 
 
-__version__ = '0.3.4'
+__version__ = '0.3.5'

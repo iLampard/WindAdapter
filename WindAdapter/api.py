@@ -135,7 +135,3 @@ def factor_details_help():
     data_dict = WIND_QUERY_HELPER.data_dict
     print_table(data_dict, name='Data_Dict')
     return
-
-
-if __name__ == '__main__':
-    print factor_load('2014-01-01', '2014-03-31', 'INDUSTRY_WEIGHT_C1', sec_id='000300.SH')

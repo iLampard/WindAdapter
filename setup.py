@@ -9,7 +9,7 @@ from setuptools import setup
 
 PACKAGE = 'WindAdapter'
 NAME = 'WindAdapter'
-VERSION = '0.3.4'
+VERSION = '0.3.5'
 DESCRIPTION = 'Windpy data adapter'
 AUTHOR = 'iLampard, RoxanneYang, bella21'
 URL = 'https://github.com/iLampard/WindAdapter'
