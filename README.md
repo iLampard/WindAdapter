@@ -7,7 +7,7 @@
 
 <tr>
   <td>Python version</td>
-  <td><img src="https://img.shields.io/badge/python-2.7-blue.svg"/>   <img src="https://img.shields.io/badge/python-3.5-blue.svg"/></td>
+  <td><img src="https://img.shields.io/badge/python-2.7-blue.svg"/>   <img src="https://img.shields.io/badge/python-3.5-blue.svg"/> <img src="https://img.shields.io/badge/python-3.6-blue.svg"/></td>
   </tr>
 
 <tr>
@@ -54,6 +54,7 @@ factor_help()
 # 将会输出目前可以查询的因子名称列表
 
 ```
+
 
 
 
@@ -134,6 +135,48 @@ factor_load('2014-01-01', '2014-07-10', ['PB', 'MV'], sec_id=['000001.SZ', '0000
 
 ```
 <br />
+
+##### get_live
+
+读取实时数据(通过wsq接口)
+
+
+``` python
+# def get_live(sec_id, block_size=400):
+"""
+:param sec_id: list, wind股票代码，如果是全市场，可输入'fulla'或者'ashare' 
+:param block_size: 内部调用wsq接口一次提取的数量，默认400支
+:return: pd.DataFrame, index=sec id, header = [rt_open,rt_high,rt_low,rt_last,rt_vol,rt_amt,rt_vol_ratio,rt_pct_chg_5min]
+"""
+
+```
+
+如果和[Schedule](https://github.com/dbader/schedule)包结合，那么能方便连续读取wind的实时数据进行后续处理
+``` python
+
+from WindAdapter import (get_universe,
+                         get_live)
+import schedule                         
+import time
+
+def live_contrib(universe):
+    ret = get_live(universe)
+    # blabblabal
+    return
+
+universe = get_universe('ashare')
+schedule.every(1).minutes.do(live_contrib, universe)
+    
+while True:
+    schedule.run_pending()
+    time.sleep(1)
+  
+
+```
+
+
+
+
 
 其他细节参见[WindAdapter tutorial](/example/tutorial.ipymd) 
 

@@ -15,11 +15,9 @@ except ImportError:
 from WindAdapter.data_provider import WindDataProvider
 from WindAdapter.helper import WindQueryHelper
 from WindAdapter.factor_loader import FactorLoader
-from WindAdapter.enums import (FreqType,
-                               Header)
+from WindAdapter.enums import Header
 from datetime import (datetime,
                       date)
-
 
 wind_query_helper = WindQueryHelper()
 wind_data_provider = WindDataProvider()
@@ -41,8 +39,7 @@ class WindData(object):
         if (self.Data == other.Data
             and self.Codes == other.Codes
             and self.ErrorCode == other.ErrorCode
-            and self.Fields == other.Fields
-            and self.Times == other.Times):
+                and self.Fields == other.Fields and self.Times == other.Times):
             return True
         else:
             return False

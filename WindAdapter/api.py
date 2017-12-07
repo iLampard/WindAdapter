@@ -58,6 +58,11 @@ def get_universe(index_id, date=None, output_weight=False):
 
 @handle_wind_query_exception(LOGGER)
 def get_live(sec_id, block_size=400):
+    """
+    :param sec_id: list, wind股票代码，如果是全市场，可输入'fulla'或者'ashare'
+    :param block_size: 内部调用wsq接口一次提取的数量，默认400支
+    :return: pd.DataFrame, index=sec id, header = [rt_open,rt_high,rt_low,rt_last,rt_vol,rt_amt,rt_vol_ratio,rt_pct_chg_5min]
+    """
     factor = FactorLoader(start_date=None,
                           end_date=None,
                           factor_name='LIVE',
