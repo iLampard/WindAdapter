@@ -9,9 +9,9 @@ from setuptools import setup
 
 PACKAGE = 'WindAdapter'
 NAME = 'WindAdapter'
-VERSION = '0.3.3'
+VERSION = '0.3.4'
 DESCRIPTION = 'Windpy data adapter'
-AUTHOR = 'iLampard, RoxanneYang'
+AUTHOR = 'iLampard, RoxanneYang, bella21'
 URL = 'https://github.com/iLampard/WindAdapter'
 LICENSE = 'MIT'
 
@@ -32,4 +32,5 @@ setup(name=NAME,
       include_dirs=[np.get_include()],
       classifiers=['Programming Language :: Python',
                    'Programming Language :: Python :: 2.7',
-                   'Programming Language :: Python :: 3.5'])
+                   'Programming Language :: Python :: 3.5',
+                   'Programming Language :: Python :: 3.6'])

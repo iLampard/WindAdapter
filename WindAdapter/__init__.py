@@ -8,7 +8,6 @@ from WindAdapter.api import factor_help
 from WindAdapter.api import factor_details_help
 from WindAdapter.api import reset_data_dict_path
 
-
 __all__ = ['version',
            'get_universe',
            'get_live',
@@ -23,4 +22,4 @@ def version():
     return __version__
 
 
-__version__ = '0.3.3'
+__version__ = '0.3.4'
