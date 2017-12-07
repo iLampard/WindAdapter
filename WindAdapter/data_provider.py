@@ -44,7 +44,7 @@ class WindDataProvider:
     def get_universe(index_id, date=None, output_weight=False):
         index_id = index_id.lower()
         try:
-            if index_id == 'fulla' or 'ashare':
+            if index_id == 'fulla' or index_id == 'ashare':
                 code = 'a001010100000000'
                 params = 'sectorid=' + code + ';field=wind_code' if date is None \
                     else 'date=' + str(date) + ';sectorid=' + code

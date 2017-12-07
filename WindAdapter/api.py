@@ -43,7 +43,7 @@ def reset_data_dict_path(path, path_type_abs):
 @handle_wind_query_exception(LOGGER)
 def get_universe(index_id, date=None, output_weight=False):
     """
-    :param index_id: str, 可以为指数代码或者'fullA'（指全市场股票），不区分大小写
+    :param index_id: str, 可以为指数代码或者'fullA' or 'ashare'（指全市场股票），不区分大小写
     :param date: str, optional, YYYYMMDD/YYYY-MM-DD，默认为None，即返回最近交易日的成分股列表
     :param output_weight: bool, optional, 是否返回对应的个股权重
     :return: 如果output_weight=False, 返回list, 成分股列表
@@ -135,3 +135,7 @@ def factor_details_help():
     data_dict = WIND_QUERY_HELPER.data_dict
     print_table(data_dict, name='Data_Dict')
     return
+
+
+if __name__ == '__main__':
+    print factor_load('2014-01-01', '2014-03-31', 'INDUSTRY_WEIGHT_C1', sec_id='000300.SH')
