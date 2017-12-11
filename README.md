@@ -28,6 +28,7 @@
 可选择MultiIndex(index为date和secID, value=因子值) 或者 PivotTable格式（index=date, col=secID，value=因子值）
 -  返回因子数据可在读取完毕后选择保存为csv或者pickle格式
 -  还可返回指数成分股列表: 可选择全市场或者某个指数
+-  读取市场的实时数据
 
 *Note*
 
