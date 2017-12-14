@@ -26,4 +26,7 @@ SW_NAME_C1,wsd,industry_sw,,,,,股票所属申万一级行业名称,基本信息
 SW_NAME_C2,wsd,industry_sw,,,,,股票所属申万二级行业名称,基本信息
 INDUSTRY_WEIGHT_C1,wset,,,,,,申万一级行业所占指数权重,基本信息
 INDUSTRY_WEIGHT_C2,wset,,,,,,申万二级行业所占指数权重,基本信息
-LIVE,wsq,"rt_open,rt_high,rt_low,rt_last,rt_vol,rt_amt,rt_vol_ratio,rt_pct_chg_5min",,,,,实时行情信息,技术
+LIVE,wsq,"rt_open,rt_high,rt_low,rt_last,rt_vol,rt_amt,rt_vol_ratio,rt_pct_chg_5min",,,,Y,实时行情信息,技术
+FULL_OHLC_DAY,wss,"open,high,low,close,pct_chg,volume,amt,adjfactor,vwap,trade_status",F,,,Y,,
+INDEX_FULL_OHLC_DAY,wss,"open,high,low,close,pct_chg,volume,amt",,,,Y,,
+INDEX_FUTURE_FULL_OHLC_DAY,wss,"pre_settle,open,high,low,close,settle,volume,amt,oi,chg",,,,Y,,

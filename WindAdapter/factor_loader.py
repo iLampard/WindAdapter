@@ -40,7 +40,9 @@ class FactorLoader:
     def _merge_query_params(self, params, date=None):
         ret = ''
         for key, value in params.iteritems():
-            if not pd.isnull(value):
+            if key == 'tenor' and pd.isnull(value):
+                ret += 'tradeDate=' + date + ';'
+            elif not pd.isnull(value):
                 if key == Header.TENOR:
                     py_assert(date is not None, ValueError, 'date must be given if tenor is not None')
                     # unit = ''.join(re.findall('[0-9]+', params[Header.TENOR]))
@@ -85,7 +87,7 @@ class FactorLoader:
                                                          sec_id=code_set,
                                                          indicator=main_params[Header.INDICATOR])
                 output_data = pd.concat([output_data, pd.DataFrame(raw_data.Data).T], axis=0)
-            output_data.columns = ['open', 'high', 'low', 'last', 'vol', 'amt', 'vol_ratio', 'pct_chg_5min']
+                output_data.columns = [field[3:] for field in main_params[Header.INDICATOR].split(',')]
         elif api == 'w.wsi':
             merged_extra_params = self._merge_query_params(extra_params, date=self.end_date)
             raw_data = WIND_DATA_PROVIDER.query_data(api=api,
@@ -120,8 +122,8 @@ class FactorLoader:
                                                              start_date=date,
                                                              end_date=date)
                 elif api == 'w.wss':
-                    py_assert(not pd.isnull(extra_params[Header.TENOR]), ValueError,
-                              'tenor must be given for query factor {0}'.format(self.factor_name))
+                    # py_assert(not pd.isnull(extra_params[Header.TENOR]), ValueError,
+                    #           'tenor must be given for query factor {0}'.format(self.factor_name))
                     merged_extra_params = self._merge_query_params(extra_params, date=date)
                     raw_data = WIND_DATA_PROVIDER.query_data(api=api,
                                                              sec_id=sec_id,
