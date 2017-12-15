@@ -2,4 +2,7 @@
 
 from WindAdapter import factor_load
 
-ret = factor_load('2014-01-01', '2014-07-10', 'PB', sec_id=['000001.SZ', '000002.SZ'], is_index=False, save_file='PB.csv')
+ret = factor_load('2014-01-01', '2014-01-15', 'FULL_OHLC_DAY', sec_id='ashare', is_index=True, freq='D', save_file='ashare.csv')
+
+
+print factor_load('2014-01-01', '2014-01-10', 'close', sec_id='ashare', is_index=True, freq='D', save_file='close.pkl')

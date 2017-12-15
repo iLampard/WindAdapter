@@ -83,11 +83,15 @@ from WindAdapter import factor_load
 :return: pd.DataFrame 整理好的因子数据
 """
 
+
+# 读取 2014年1月1日 至 1月15日 全部A股个股的日频行情数据，包括开高低收、复权因子、交易状态等，并保存成csv格式
+factor_load('2014-01-01', '2014-01-15', 'FULL_OHLC_DAY', sec_id='ashare', is_index=True, freq='D', save_file='ashare.csv')
+
 # 读取 2014年上半年 000001.SZ和000002.SZ的PB数据， 并保存成csv格式（默认数据频率为月频，数据格式为multi-index DataFrame）
 factor_load('2014-01-01', '2014-07-10', 'PB', sec_id=['000001.SZ', '000002.SZ'], is_index=False, save_file='PB.csv')
 
-# 读取全市场 2016年1月的每日收盘价，并保存成pickle格式
-factor_load('2014-01-01', '2014-07-10', 'close', sec_id='fullA', is_index=True, freq='D', save_file='close.pkl')
+# 读取2016年1月 全部A顾个股的每日收盘价，并保存成pickle格式
+factor_load('2014-01-01', '2014-07-10', 'close', sec_id='ashare', is_index=True, freq='D', save_file='close.pkl')
 
 # 读取沪深300成分股从2014年1月至3月，频率为每月(freq=M)的季度(tenor='3M')收益， 并保存成csv格式
 factor_load('2014-01-01', '2014-03-31', 'return', sec_id='000300.SH', is_index=True, freq='M', tenor='3M', save_file='HS300_return_1Q.csv')```
