@@ -138,5 +138,3 @@ def factor_details_help():
 
 
 
-
-print get_live('000905.SH')
