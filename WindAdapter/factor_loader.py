@@ -4,7 +4,7 @@ import re
 
 import pandas as pd
 from argcheck import expect_types
-
+import numpy as np
 from WindAdapter.data_provider import WindDataProvider
 from WindAdapter.enums import FreqType
 from WindAdapter.enums import Header
@@ -86,8 +86,9 @@ class FactorLoader:
                 raw_data = WIND_DATA_PROVIDER.query_data(api=api,
                                                          sec_id=code_set,
                                                          indicator=main_params[Header.INDICATOR])
-                output_data = pd.concat([output_data, pd.DataFrame(raw_data.Data).T], axis=0)
-                output_data.columns = [field[3:] for field in main_params[Header.INDICATOR].split(',')]
+                output_data = pd.concat(
+                    [output_data, pd.DataFrame(np.concatenate(([raw_data.Times], raw_data.Data))).T], axis=0)
+                output_data.columns = ['date'] + [field[3:] for field in main_params[Header.INDICATOR].split(',')]
         elif api == 'w.wsi':
             merged_extra_params = self._merge_query_params(extra_params, date=self.end_date)
             raw_data = WIND_DATA_PROVIDER.query_data(api=api,

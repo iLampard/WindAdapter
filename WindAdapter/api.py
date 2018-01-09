@@ -135,3 +135,8 @@ def factor_details_help():
     data_dict = WIND_QUERY_HELPER.data_dict
     print_table(data_dict, name='Data_Dict')
     return
+
+
+
+
+print get_live('000905.SH')
