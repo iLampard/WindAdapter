@@ -11,7 +11,7 @@ GrossProfit,wsd,grossmargin,,100000000,,,毛利,盈利
 EP,wsd,deductedprofit_ttm,,100000000,,,扣除非经常性损益后的净利润（TTM）,盈利
 SP,wsd,gr_ttm,,100000000,,,营业总收入（TTM）,盈利
 OHLCV_DAY,wsd,"open,high,low,close,volume",F,,,Y,开盘价、最高价、最低价、收盘价、成交量(日频数据),技术
-OHLCV_MIN,wsi,"open,high,low,close,volume",F,,,Y,开盘价、最高价、最低价、收盘价、成交量(分钟频数据),技术
+OHLCV_MIN,wsi,"open,high,low,close,volume,amt,pct_chg",F,,,Y,开盘价、最高价、最低价、收盘价、成交量(分钟频数据),技术
 OPEN,wsd,open,F,,,,开盘价,技术
 HIGH,wsd,high,F,,,,最高价,技术
 LOW,wsd,low,F,,,,最低价,技术
